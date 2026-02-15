@@ -1,0 +1,207 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const ventures = [
+  {
+    name: "Axiom",
+    tagline: "Question Bank Platform",
+    description: "98,000+ math problems. Build assignments in seconds.",
+    status: "Live",
+    url: "https://axiom.onyxenterprises.org"
+  },
+  {
+    name: "Orbital",
+    tagline: "AI Video Tutoring",
+    description: "Step-by-step video solutions for STEM courses.",
+    status: "Beta",
+    url: "https://orbitalsolver.io"
+  },
+  {
+    name: "Atlas Classical Press",
+    tagline: "Educational Publishing",
+    description: "Faith-integrated mathematics textbooks at fair prices.",
+    status: "Active",
+    url: "#"
+  },
+  {
+    name: "Gentle Steps",
+    tagline: "Mental Health",
+    description: "AI-powered CBT and exposure therapy for anxiety.",
+    status: "Beta",
+    url: "https://gentlesteps.health"
+  },
+  {
+    name: "Meridian",
+    tagline: "Learning Platform",
+    description: "Next-generation course delivery infrastructure.",
+    status: "Development",
+    url: "#"
+  },
+];
+
+const links = [
+  { name: "LinkedIn", url: "https://linkedin.com/in/claytonragsdale", icon: "linkedin" },
+  { name: "GitHub", url: "https://github.com/Claudio-Atlas", icon: "github" },
+  { name: "Onyx Enterprises", url: "https://onyxenterprises.org", icon: "external" },
+];
+---
+
+<Layout title="Clayton Ragsdale | Founder & Education Technologist">
+  <!-- Navigation -->
+  <nav class="fixed top-0 left-0 right-0 z-50 nav-blur border-b border-white/10">
+    <div class="container">
+      <div class="h-20 flex items-center justify-between">
+        <a href="/" class="flex items-center gap-3">
+          <img src="/onyx-logo.svg" alt="Onyx" class="w-8 h-8" />
+          <span class="font-medium text-white/90 tracking-tight">Clayton Ragsdale</span>
+        </a>
+        <div class="hidden md:flex items-center gap-10 text-sm text-white/50">
+          <a href="#ventures" class="hover:text-white transition-colors">Ventures</a>
+          <a href="#about" class="hover:text-white transition-colors">About</a>
+          <a href="#contact" class="hover:text-white transition-colors">Contact</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="min-h-screen flex items-center pt-20">
+    <div class="container">
+      <div class="max-w-3xl fade-in">
+        <p class="text-white/50 text-sm uppercase tracking-widest mb-4">Founder & Education Technologist</p>
+        <h1 class="text-5xl md:text-7xl font-semibold tracking-tight mb-6 gradient-text">
+          Building tools that<br />matter for education.
+        </h1>
+        <p class="text-xl text-white/60 mb-10 max-w-2xl">
+          I build technology that helps teachers teach and students learn. 
+          Currently leading <a href="https://onyxenterprises.org" class="text-white hover:underline">Onyx Enterprises</a>, 
+          a holding company focused on education and healthcare ventures.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="#ventures" class="btn btn-primary">View Ventures</a>
+          <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ventures -->
+  <section id="ventures" class="border-t border-white/10">
+    <div class="container">
+      <div class="mb-16">
+        <p class="text-white/50 text-sm uppercase tracking-widest mb-4">Portfolio</p>
+        <h2 class="text-4xl md:text-5xl font-semibold tracking-tight">Our Ventures</h2>
+      </div>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {ventures.map((venture) => (
+          <a href={venture.url} class="card group">
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-xs px-2 py-1 rounded-full bg-white/10 text-white/60">
+                {venture.status}
+              </span>
+            </div>
+            <h3 class="text-xl font-semibold mb-1 group-hover:text-blue-400 transition-colors">
+              {venture.name}
+            </h3>
+            <p class="text-sm text-white/50 mb-3">{venture.tagline}</p>
+            <p class="text-white/60">{venture.description}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="border-t border-white/10">
+    <div class="container">
+      <div class="grid md:grid-cols-2 gap-16 items-center">
+        <div>
+          <p class="text-white/50 text-sm uppercase tracking-widest mb-4">About</p>
+          <h2 class="text-4xl md:text-5xl font-semibold tracking-tight mb-6">
+            Long-term thinking.
+          </h2>
+          <div class="space-y-4 text-white/60">
+            <p>
+              I'm a mathematician, educator, and technologist based in Arizona. 
+              I believe great education tools should be accessible, not locked behind 
+              enterprise paywalls.
+            </p>
+            <p>
+              Through Onyx Enterprises, I'm building a portfolio of companies that 
+              share a common mission: making quality education more accessible. From 
+              AI-powered tutoring to affordable textbooks, each venture addresses a 
+              real problem I've encountered in my years of teaching.
+            </p>
+            <p>
+              When I'm not building, I'm teaching college mathematics and spending 
+              time with my family.
+            </p>
+          </div>
+        </div>
+        <div class="card">
+          <h3 class="text-lg font-semibold mb-6">By the Numbers</h3>
+          <div class="space-y-6">
+            <div>
+              <p class="text-3xl font-semibold">98,000+</p>
+              <p class="text-white/50 text-sm">Math problems in Axiom</p>
+            </div>
+            <div>
+              <p class="text-3xl font-semibold">6</p>
+              <p class="text-white/50 text-sm">Active ventures</p>
+            </div>
+            <div>
+              <p class="text-3xl font-semibold">3</p>
+              <p class="text-white/50 text-sm">Published textbook volumes</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="border-t border-white/10">
+    <div class="container">
+      <div class="max-w-2xl">
+        <p class="text-white/50 text-sm uppercase tracking-widest mb-4">Contact</p>
+        <h2 class="text-4xl md:text-5xl font-semibold tracking-tight mb-6">
+          Let's connect.
+        </h2>
+        <p class="text-xl text-white/60 mb-10">
+          Interested in collaborating or learning more about our ventures? 
+          Reach out anytime.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          {links.map((link) => (
+            <a 
+              href={link.url} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="btn btn-secondary"
+            >
+              {link.name}
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-white/10 py-12">
+    <div class="container">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <img src="/onyx-logo.svg" alt="Onyx" class="w-6 h-6 opacity-50" />
+          <span class="text-white/40 text-sm">© 2026 Clayton Ragsdale. All rights reserved.</span>
+        </div>
+        <div class="text-white/40 text-sm">
+          Part of <a href="https://onyxenterprises.org" class="hover:text-white transition-colors">Onyx Enterprises</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</Layout>

@@ -1,0 +1,27 @@
+<svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="300" height="300" fill="#000000"/>
+  
+  <!-- Subtle grid texture -->
+  <defs>
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="0.5"/>
+    </pattern>
+  </defs>
+  <rect width="300" height="300" fill="url(#grid)"/>
+  
+  <!-- Onyx Gem - Centered -->
+  <g transform="translate(150, 150)">
+    <!-- Outer gem -->
+    <polygon points="0,-85 74,-42.5 74,42.5 0,85 -74,42.5 -74,-42.5" 
+             fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.9)" stroke-width="3"/>
+    <!-- Middle gem -->
+    <polygon points="0,-60 52,-30 52,30 0,60 -52,30 -52,-30" 
+             fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+    <!-- Inner gem -->
+    <polygon points="0,-35 30,-17.5 30,17.5 0,35 -30,17.5 -30,-17.5" 
+             fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+    <!-- Center dot -->
+    <circle cx="0" cy="0" r="6" fill="rgba(255,255,255,0.2)"/>
+  </g>
+</svg>

@@ -1,0 +1,35 @@
+<svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="300" height="300" fill="#000000"/>
+  
+  <!-- Subtle grid texture -->
+  <defs>
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="0.5"/>
+    </pattern>
+  </defs>
+  <rect width="300" height="300" fill="url(#grid)"/>
+  
+  <!-- Axiom "A" Mark - geometric, mathematical -->
+  <g transform="translate(150, 150)">
+    <!-- Outer triangle (A shape foundation) -->
+    <polygon points="0,-80 70,60 -70,60" 
+             fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="3"/>
+    
+    <!-- Crossbar of the A -->
+    <line x1="-42" y1="20" x2="42" y2="20" 
+          stroke="rgba(255,255,255,0.9)" stroke-width="3"/>
+    
+    <!-- Inner geometric detail - smaller triangle -->
+    <polygon points="0,-40 35,30 -35,30" 
+             fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+    
+    <!-- Center point - the "axiom" / fundamental truth -->
+    <circle cx="0" cy="5" r="6" fill="rgba(255,255,255,0.3)"/>
+    
+    <!-- Three dots below crossbar - representing questions/problems -->
+    <circle cx="-25" cy="45" r="4" fill="rgba(255,255,255,0.5)"/>
+    <circle cx="0" cy="45" r="4" fill="rgba(255,255,255,0.5)"/>
+    <circle cx="25" cy="45" r="4" fill="rgba(255,255,255,0.5)"/>
+  </g>
+</svg>

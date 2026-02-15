@@ -1,0 +1,74 @@
+<svg width="1584" height="396" viewBox="0 0 1584 396" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gradient background -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a0a"/>
+      <stop offset="50%" style="stop-color:#000000"/>
+      <stop offset="100%" style="stop-color:#0a0a0f"/>
+    </linearGradient>
+    
+    <!-- Subtle glow behind logo -->
+    <radialGradient id="logoGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:rgba(255,255,255,0.1)"/>
+      <stop offset="100%" style="stop-color:rgba(0,0,0,0)"/>
+    </radialGradient>
+    
+    <!-- Grid pattern -->
+    <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M 60 0 L 0 0 0 60" fill="none" stroke="rgba(255,255,255,0.02)" stroke-width="1"/>
+    </pattern>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1584" height="396" fill="url(#bgGrad)"/>
+  
+  <!-- Grid overlay -->
+  <rect width="1584" height="396" fill="url(#grid)"/>
+  
+  <!-- Decorative line elements -->
+  <g opacity="0.06">
+    <line x1="0" y1="80" x2="300" y2="80" stroke="white" stroke-width="1"/>
+    <line x1="0" y1="316" x2="450" y2="316" stroke="white" stroke-width="1"/>
+    <line x1="1300" y1="120" x2="1584" y2="120" stroke="white" stroke-width="1"/>
+    <line x1="1350" y1="280" x2="1584" y2="280" stroke="white" stroke-width="1"/>
+  </g>
+  
+  <!-- Onyx Gem Logo - RIGHT SIDE (prominent but elegant) -->
+  <g transform="translate(1280, 98)">
+    <!-- Glow behind gem -->
+    <ellipse cx="100" cy="100" rx="120" ry="100" fill="url(#logoGlow)"/>
+    <!-- Main gem shape -->
+    <polygon points="100,0 200,60 200,140 100,200 0,140 0,60" 
+             fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
+    <!-- Inner gem detail -->
+    <polygon points="100,30 170,75 170,125 100,170 30,125 30,75" 
+             fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+  </g>
+  
+  <!-- Main text content - positioned for profile photo overlap -->
+  <g fill="white">
+    <!-- Title -->
+    <text x="350" y="160" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" 
+          font-size="32" font-weight="600" fill="rgba(255,255,255,0.95)">
+      EdTech Consultant &amp; Founder
+    </text>
+    
+    <!-- Subtitle -->
+    <text x="350" y="200" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" 
+          font-size="18" fill="rgba(255,255,255,0.5)">
+      Curriculum · LMS Development · AI Integration
+    </text>
+    
+    <!-- Availability signal -->
+    <text x="350" y="245" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" 
+          font-size="14" fill="rgba(59,130,246,0.8)">
+      Open to Consulting &amp; Contract Work
+    </text>
+  </g>
+  
+  <!-- Accent dot -->
+  <circle cx="330" cy="175" r="4" fill="rgba(59,130,246,0.7)"/>
+  
+  <!-- Bottom accent line -->
+  <rect x="0" y="393" width="1584" height="3" fill="rgba(255,255,255,0.08)"/>
+</svg>

@@ -1,0 +1,72 @@
+<svg width="1584" height="396" viewBox="0 0 1584 396" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gradient background -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f0f0f"/>
+      <stop offset="50%" style="stop-color:#050505"/>
+      <stop offset="100%" style="stop-color:#0a0a0f"/>
+    </linearGradient>
+    
+    <!-- Grid pattern -->
+    <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
+      <path d="M 50 0 L 0 0 0 50" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="0.5"/>
+    </pattern>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1584" height="396" fill="url(#bgGrad)"/>
+  
+  <!-- Grid overlay -->
+  <rect width="1584" height="396" fill="url(#grid)"/>
+  
+  <!-- Decorative lines -->
+  <g opacity="0.08">
+    <line x1="0" y1="70" x2="250" y2="70" stroke="white" stroke-width="1"/>
+    <line x1="0" y1="326" x2="400" y2="326" stroke="white" stroke-width="1"/>
+  </g>
+  
+  <!-- ONYX GEM LOGO - Right side, prominent -->
+  <g transform="translate(1250, 98)">
+    <!-- Outer gem -->
+    <polygon points="100,0 200,60 200,140 100,200 0,140 0,60" 
+             fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+    <!-- Middle gem -->
+    <polygon points="100,25 175,70 175,130 100,175 25,130 25,70" 
+             fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+    <!-- Inner gem -->
+    <polygon points="100,50 150,80 150,120 100,150 50,120 50,80" 
+             fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+    <!-- Center highlight -->
+    <circle cx="100" cy="100" r="8" fill="rgba(255,255,255,0.08)"/>
+  </g>
+  
+  <!-- Small decorative gem - top left corner (subtle) -->
+  <g transform="translate(60, 60)" opacity="0.15">
+    <polygon points="40,0 80,24 80,56 40,80 0,56 0,24" 
+             fill="none" stroke="white" stroke-width="1"/>
+  </g>
+  
+  <!-- Main text content -->
+  <g fill="white">
+    <!-- Title -->
+    <text x="350" y="155" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" 
+          font-size="34" font-weight="600" fill="rgba(255,255,255,0.95)" letter-spacing="-0.5">
+      EdTech Consultant &amp; Founder
+    </text>
+    
+    <!-- Skills -->
+    <text x="350" y="198" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" 
+          font-size="17" fill="rgba(255,255,255,0.45)">
+      Curriculum Design · LMS Development · AI Integration
+    </text>
+    
+    <!-- CTA - availability -->
+    <text x="350" y="250" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" 
+          font-size="14" font-weight="500" fill="rgba(96,165,250,0.9)">
+      ● Open to Consulting &amp; Contract Work
+    </text>
+  </g>
+  
+  <!-- Bottom accent -->
+  <rect x="0" y="392" width="1584" height="4" fill="rgba(96,165,250,0.15)"/>
+</svg>

@@ -4,22 +4,22 @@ import Layout from '../layouts/Layout.astro';
 const services = [
   {
     name: "Curriculum Development",
-    description: "Design and build comprehensive math curricula, from lesson plans to full textbook series. Specializing in calculus, differential equations, and college-level mathematics.",
+    description: "Comprehensive math curricula from lesson plans to full textbook series. Multi-volume calculus, precalculus, differential equations — built from years in the classroom.",
     icon: "📚"
   },
   {
     name: "LMS & EdTech Development",
-    description: "Custom learning management systems, question banks, auto-grading tools, and integrations with Canvas, Blackboard, and other platforms.",
+    description: "Custom learning management systems, question banks with 98,000+ problems, auto-grading engines, and integrations with Canvas, Blackboard, and IMathAS.",
     icon: "💻"
   },
   {
-    name: "AI Integration",
-    description: "Implement AI tutoring, automated feedback, and intelligent content generation for educational platforms.",
+    name: "AI-Powered Education",
+    description: "AI tutoring systems, automated content generation, step-by-step video solutions, and intelligent assessment pipelines that scale.",
     icon: "🤖"
   },
   {
     name: "Assessment Design",
-    description: "Build question banks, homework systems, and assessment tools. 98,000+ problems created and organized.",
+    description: "Randomized, auto-gradeable question banks. From single problems to full course assessment suites — designed by someone who's graded thousands of them.",
     icon: "✏️"
   },
 ];
@@ -27,34 +27,83 @@ const services = [
 const portfolio = [
   {
     name: "Atlas Classical Press",
-    description: "Multi-volume calculus textbook series with integrated faith perspective.",
-    type: "Publishing"
+    description: "Multi-volume calculus textbook series with integrated classical perspective. Professional typesetting, comprehensive exercises, and instructor resources.",
+    type: "Publishing",
+    url: "https://meridian-press.com",
+    stat: "4 Volumes"
   },
   {
     name: "Axiom Question Bank",
-    description: "98,000+ math problems with LMS integration capabilities.",
-    type: "EdTech"
+    description: "Massive auto-gradeable assessment library with randomized parameters, instant feedback, and full LMS integration.",
+    type: "Assessment",
+    url: null,
+    stat: "98,000+ Problems"
   },
   {
     name: "Orbital",
-    description: "AI-generated step-by-step video solutions for STEM courses.",
-    type: "AI/EdTech"
+    description: "AI-generated step-by-step video solutions for STEM courses. Manim-powered animations with professional voiceover.",
+    type: "AI / EdTech",
+    url: "https://orbitalsolver.io",
+    stat: "Video Solutions"
   },
   {
     name: "Meridian LMS",
-    description: "Next-generation course delivery infrastructure.",
-    type: "Platform"
+    description: "Next-generation course delivery platform. Textbook reader, homework engine, and grade management — purpose-built for mathematics.",
+    type: "Platform",
+    url: "https://meridian-press.com",
+    stat: "Full Stack"
+  },
+];
+
+const reviews = [
+  {
+    text: "Professor Ragsdale is the best math professor. He makes learning math so interesting. I 100% recommend him if he is teaching a course you are looking at.",
+    course: "MAT-262",
+    tags: "Amazing Lectures • Caring"
+  },
+  {
+    text: "He is a great professor that truly loves what he does! He explains the material simply and is accessible and understanding towards his students.",
+    course: "MAT-264",
+    tags: "Respected • Inspirational"
+  },
+  {
+    text: "Professor Ragsdale is a fantastic math professor. His lectures are clear and well-organized, and he genuinely cares about his students' understanding.",
+    course: "MATH-154",
+    tags: "Amazing Lectures • Caring"
+  },
+  {
+    text: "He really knows how to teach and makes complex topics understandable. One of the best professors I've had.",
+    course: "MAT-345",
+    tags: "Respected • Caring"
+  },
+];
+
+const steps = [
+  {
+    num: "01",
+    title: "Discovery Call",
+    desc: "We'll discuss your goals, current pain points, and what 'better' looks like for your program. No commitment — just a conversation."
+  },
+  {
+    num: "02",
+    title: "Scope & Plan",
+    desc: "I'll put together a clear proposal — deliverables, timeline, and cost. Whether it's a question bank, a textbook, or a full LMS build."
+  },
+  {
+    num: "03",
+    title: "Build & Ship",
+    desc: "I do the work. You get regular updates, review drafts, and receive polished deliverables — on time and to spec."
   },
 ];
 
 const links = [
   { name: "LinkedIn", url: "https://www.linkedin.com/in/clayton-ragsdale/" },
   { name: "GitHub", url: "https://github.com/Claudio-Atlas" },
-  { name: "Email", url: "mailto:clayton@onyxenterprises.org" },
+  { name: "Email", url: "mailto:ragsdale.clay@gmail.com" },
 ];
 ---
 
-<Layout title="Clayton Ragsdale | EdTech Consultant & Founder" description="Education technology consultant specializing in curriculum development, LMS integration, and AI-powered learning tools.">
+<Layout title="Clayton Ragsdale | EdTech Founder & Consultant" description="Founder of Onyx Core Enterprises. I build textbooks, question banks, LMS platforms, and AI-powered education tools.">
   <!-- Navigation -->
   <nav class="fixed top-0 left-0 right-0 z-50 nav-blur border-b border-white/10">
     <div class="container">
@@ -64,8 +113,10 @@ const links = [
           <span class="font-medium text-white/90 tracking-tight">Clayton Ragsdale</span>
         </a>
         <div class="hidden md:flex items-center gap-10 text-sm text-white/50">
-          <a href="#services" class="hover:text-white transition-colors">Services</a>
+          <a href="#about" class="hover:text-white transition-colors">About</a>
           <a href="#work" class="hover:text-white transition-colors">Work</a>
+          <a href="#services" class="hover:text-white transition-colors">Services</a>
+          <a href="#reviews" class="hover:text-white transition-colors">Reviews</a>
           <a href="#contact" class="hover:text-white transition-colors">Contact</a>
         </div>
       </div>
@@ -75,23 +126,147 @@ const links = [
   <!-- Hero -->
   <section class="min-h-screen flex items-center pt-20">
     <div class="container">
-      <div class="max-w-3xl fade-in">
-        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-sm mb-6">
-          <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
-          Available for consulting & contract work
+      <div class="grid md:grid-cols-2 gap-16 items-center">
+        <div class="fade-in">
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-sm mb-6">
+            <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
+            Available for consulting & contract work
+          </div>
+          <h1 class="text-5xl md:text-6xl font-semibold tracking-tight mb-6 gradient-text leading-tight">
+            I build the tools<br />that teach math.
+          </h1>
+          <p class="text-xl text-white/60 mb-10 max-w-xl">
+            Founder of <a href="https://onyxcoreenterprises.org" class="text-white/80 hover:text-white underline decoration-white/30">Onyx Core Enterprises</a>. 
+            I write textbooks, build question banks, design LMS platforms, and create 
+            AI-powered education tools — all rooted in years of actually teaching the stuff.
+          </p>
+          <div class="flex flex-wrap gap-4">
+            <a href="#contact" class="btn btn-primary">Let's Talk</a>
+            <a href="#work" class="btn btn-secondary">See My Work</a>
+          </div>
         </div>
-        <h1 class="text-5xl md:text-7xl font-semibold tracking-tight mb-6 gradient-text">
-          EdTech Consultant<br />& Founder
-        </h1>
-        <p class="text-xl text-white/60 mb-10 max-w-2xl">
-          I help educational institutions and EdTech companies build better 
-          learning experiences. From curriculum design to custom LMS development 
-          to AI integration — I've shipped it all.
+        <!-- Headshot -->
+        <div class="flex justify-center md:justify-end fade-in" style="animation-delay: 0.2s">
+          <div class="relative">
+            <div class="w-72 h-72 md:w-80 md:h-80 rounded-2xl overflow-hidden border border-white/10">
+              <img src="/headshot.jpg" alt="Clayton Ragsdale" class="w-full h-full object-cover" />
+            </div>
+            <div class="absolute -bottom-3 -right-3 w-full h-full rounded-2xl border border-white/5 -z-10"></div>
+          </div>
+        </div>
+      </div>
+      <!-- Stats bar -->
+      <div class="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 pt-12 border-t border-white/10">
+        <div>
+          <p class="text-3xl font-semibold">98k+</p>
+          <p class="text-white/50 text-sm mt-1">Math Problems Built</p>
+        </div>
+        <div>
+          <p class="text-3xl font-semibold">5.0★</p>
+          <p class="text-white/50 text-sm mt-1">Professor Rating</p>
+        </div>
+        <div>
+          <p class="text-3xl font-semibold">6+</p>
+          <p class="text-white/50 text-sm mt-1">Active Ventures</p>
+        </div>
+        <div>
+          <p class="text-3xl font-semibold">6+</p>
+          <p class="text-white/50 text-sm mt-1">Years Teaching</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="border-t border-white/10">
+    <div class="container">
+      <div class="max-w-3xl">
+        <p class="text-white/50 text-sm uppercase tracking-widest mb-4">About</p>
+        <h2 class="text-4xl md:text-5xl font-semibold tracking-tight mb-8">Educator turned builder.</h2>
+        <div class="space-y-6 text-lg text-white/60 leading-relaxed">
+          <p>
+            I'm a mathematics educator who builds things. After 6+ years teaching college math — from 
+            community college to university — I developed a deep understanding of where students struggle 
+            and what actually helps them learn. That led me to stop just teaching math and start building 
+            better math education.
+          </p>
+          <p>
+            Now I author calculus textbooks used in classical education and homeschool markets, design 
+            assessment content at scale, build EdTech tools for teachers and students, and create 
+            AI-assisted content workflows that actually work.
+          </p>
+          <p>
+            I hold an <span class="text-white/80">MS in Mathematics</span> from Grand Canyon University 
+            and a <span class="text-white/80">BS in Mathematics</span> with a 
+            <span class="text-white/80">BA in Economics</span> from Chapman University. I've passed 
+            <span class="text-white/80">Actuarial Exam P</span> and currently teach online at GCU 
+            while running Onyx Core Enterprises full-time.
+          </p>
+        </div>
+        <!-- Credentials -->
+        <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="flex items-start gap-3 p-4 rounded-lg bg-white/[0.03] border border-white/5">
+            <span class="text-blue-400 text-lg mt-0.5">🎓</span>
+            <div>
+              <p class="text-white/80 font-medium">MS Mathematics</p>
+              <p class="text-white/40 text-sm">Grand Canyon University</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-3 p-4 rounded-lg bg-white/[0.03] border border-white/5">
+            <span class="text-blue-400 text-lg mt-0.5">🎓</span>
+            <div>
+              <p class="text-white/80 font-medium">BS Mathematics & BA Economics</p>
+              <p class="text-white/40 text-sm">Chapman University</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-3 p-4 rounded-lg bg-white/[0.03] border border-white/5">
+            <span class="text-blue-400 text-lg mt-0.5">📊</span>
+            <div>
+              <p class="text-white/80 font-medium">Actuarial Exam P — Passed</p>
+              <p class="text-white/40 text-sm">Society of Actuaries</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-3 p-4 rounded-lg bg-white/[0.03] border border-white/5">
+            <span class="text-blue-400 text-lg mt-0.5">🏫</span>
+            <div>
+              <p class="text-white/80 font-medium">Online Math Faculty</p>
+              <p class="text-white/40 text-sm">Grand Canyon University · 2022–Present</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Work / Portfolio -->
+  <section id="work" class="border-t border-white/10">
+    <div class="container">
+      <div class="mb-16">
+        <p class="text-white/50 text-sm uppercase tracking-widest mb-4">Featured Work</p>
+        <h2 class="text-4xl md:text-5xl font-semibold tracking-tight">What I've Built</h2>
+        <p class="text-white/50 mt-4 max-w-2xl">
+          Products and platforms I've built through 
+          <a href="https://onyxcoreenterprises.org" class="text-white/70 hover:text-white underline">Onyx Core Enterprises</a>.
         </p>
-        <div class="flex flex-wrap gap-4">
-          <a href="#contact" class="btn btn-primary">Let's Talk</a>
-          <a href="#work" class="btn btn-secondary">View My Work</a>
-        </div>
+      </div>
+      <div class="grid md:grid-cols-2 gap-6">
+        {portfolio.map((item) => (
+          <a href={item.url || '#'} target={item.url ? '_blank' : '_self'} rel="noopener noreferrer" class="card group">
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-xs px-2 py-1 rounded-full bg-white/10 text-white/50">
+                {item.type}
+              </span>
+              <span class="text-sm text-blue-400 font-medium">{item.stat}</span>
+            </div>
+            <h3 class="text-xl font-semibold mb-2 group-hover:text-blue-400 transition-colors">{item.name}</h3>
+            <p class="text-white/60">{item.description}</p>
+          </a>
+        ))}
+      </div>
+      <div class="mt-8 text-center">
+        <a href="https://onyxcoreenterprises.org" class="text-white/50 hover:text-white text-sm transition-colors">
+          View all ventures at Onyx Core Enterprises →
+        </a>
       </div>
     </div>
   </section>
@@ -115,56 +290,75 @@ const links = [
     </div>
   </section>
 
-  <!-- Work / Portfolio -->
-  <section id="work" class="border-t border-white/10">
+  <!-- How It Works -->
+  <section class="border-t border-white/10 bg-white/[0.02]">
     <div class="container">
       <div class="mb-16">
-        <p class="text-white/50 text-sm uppercase tracking-widest mb-4">Portfolio</p>
-        <h2 class="text-4xl md:text-5xl font-semibold tracking-tight">Selected Work</h2>
+        <p class="text-white/50 text-sm uppercase tracking-widest mb-4">Process</p>
+        <h2 class="text-4xl md:text-5xl font-semibold tracking-tight">How It Works</h2>
         <p class="text-white/50 mt-4 max-w-2xl">
-          Projects I've built through <a href="https://onyxenterprises.org" class="text-white/70 hover:text-white underline">Onyx Enterprises</a>, 
-          my holding company focused on education and healthcare technology.
+          No red tape, no bloated timelines. Just clear scope, honest communication, and shipped work.
         </p>
       </div>
-      <div class="grid md:grid-cols-2 gap-6">
-        {portfolio.map((item) => (
-          <div class="card">
-            <span class="text-xs px-2 py-1 rounded-full bg-white/10 text-white/50 mb-4 inline-block">
-              {item.type}
-            </span>
-            <h3 class="text-xl font-semibold mb-2">{item.name}</h3>
-            <p class="text-white/60">{item.description}</p>
+      <div class="grid md:grid-cols-3 gap-8">
+        {steps.map((step) => (
+          <div class="relative">
+            <span class="text-6xl font-bold text-white/[0.05]">{step.num}</span>
+            <h3 class="text-xl font-semibold mt-2 mb-3">{step.title}</h3>
+            <p class="text-white/50">{step.desc}</p>
           </div>
         ))}
-      </div>
-      <div class="mt-8 text-center">
-        <a href="https://onyxenterprises.org" class="text-white/50 hover:text-white text-sm transition-colors">
-          View all ventures at Onyx Enterprises →
-        </a>
       </div>
     </div>
   </section>
 
-  <!-- Stats -->
-  <section class="border-t border-white/10 bg-white/[0.02]">
-    <div class="container py-16">
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-        <div>
-          <p class="text-4xl font-semibold">98k+</p>
-          <p class="text-white/50 text-sm mt-1">Math Problems Created</p>
+  <!-- Reviews -->
+  <section id="reviews" class="border-t border-white/10">
+    <div class="container">
+      <div class="mb-16">
+        <p class="text-white/50 text-sm uppercase tracking-widest mb-4">Reviews</p>
+        <h2 class="text-4xl md:text-5xl font-semibold tracking-tight">What Students Say</h2>
+        <p class="text-white/50 mt-4 max-w-2xl">
+          I've taught hundreds of students at GCU and Paradise Valley Community College. 
+          Here's what they think.
+        </p>
+        <div class="flex items-center gap-4 mt-6">
+          <div class="flex gap-1">
+            {[1,2,3,4,5].map(() => (
+              <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+            ))}
+          </div>
+          <span class="text-white/70 font-medium">5.0 / 5.0</span>
+          <span class="text-white/40">·</span>
+          <span class="text-white/40">41 ratings</span>
+          <span class="text-white/40">·</span>
+          <span class="text-white/40">100% would take again</span>
         </div>
-        <div>
-          <p class="text-4xl font-semibold">3</p>
-          <p class="text-white/50 text-sm mt-1">Textbook Volumes</p>
-        </div>
-        <div>
-          <p class="text-4xl font-semibold">6</p>
-          <p class="text-white/50 text-sm mt-1">Active Ventures</p>
-        </div>
-        <div>
-          <p class="text-4xl font-semibold">5+</p>
-          <p class="text-white/50 text-sm mt-1">Years Teaching</p>
-        </div>
+      </div>
+      <div class="grid md:grid-cols-2 gap-6">
+        {reviews.map((review) => (
+          <div class="card">
+            <div class="flex gap-1 mb-4">
+              {[1,2,3,4,5].map(() => (
+                <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+              ))}
+            </div>
+            <p class="text-white/80 text-lg mb-4 italic">"{review.text}"</p>
+            <div class="flex items-center justify-between">
+              <span class="text-xs text-white/30">{review.tags}</span>
+              <span class="text-xs text-white/30">{review.course}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div class="text-center mt-8">
+        <a href="https://www.ratemyprofessors.com/professor/2791383" target="_blank" rel="noopener noreferrer" class="text-white/50 hover:text-white text-sm transition-colors">
+          See all 41 reviews on RateMyProfessors →
+        </a>
       </div>
     </div>
   </section>
@@ -178,8 +372,8 @@ const links = [
           Let's build something.
         </h2>
         <p class="text-xl text-white/60 mb-10">
-          Have a project in mind? Looking for curriculum development, LMS work, 
-          or AI integration? I'd love to hear about it.
+          Have a project in mind? Looking for curriculum development, assessment design, 
+          LMS work, or AI integration? I'd love to hear about it.
         </p>
         <div class="flex flex-wrap gap-4 mb-12">
           {links.map((link) => (
@@ -209,7 +403,7 @@ const links = [
           <span class="text-white/40 text-sm">© 2026 Clayton Ragsdale</span>
         </div>
         <div class="text-white/40 text-sm">
-          Founder at <a href="https://onyxenterprises.org" class="hover:text-white transition-colors">Onyx Enterprises</a>
+          Founder at <a href="https://onyxcoreenterprises.org" class="hover:text-white transition-colors">Onyx Core Enterprises</a>
         </div>
       </div>
     </div>

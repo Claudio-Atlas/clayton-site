@@ -21,6 +21,35 @@ function gauss(r: () => number) {
   return Math.sqrt(-2 * Math.log(r() + 1e-9)) * Math.cos(TAU * r());
 }
 
+// The Orbital logo: the Lissajous curve x = sin 2t, y = sin 3t (from the channel's brand
+// guide), thickened into a tube and given depth so it reads as 3D when it turns.
+// Particles are ordered along t, so revealing them by index draws it as one stroke.
+function orbitalLogo(n: number): Vec {
+  const r = rand(5);
+  const p = new Float32Array(n * 3);
+  for (let i = 0; i < n; i++) {
+    const t = (i / n) * TAU;
+    const x = Math.sin(2 * t) * 0.78;
+    const y = -Math.sin(3 * t) * 0.72;
+    const z = Math.cos(t) * 0.32;
+    p.set([x + gauss(r) * 0.018, y + gauss(r) * 0.018, z + gauss(r) * 0.018], i * 3);
+  }
+  return p;
+}
+
+// A square sheet of particles; its heights are rewritten every frame (see rippleAt).
+function rippleGrid(n: number): Vec {
+  return saddle(n).map((v, i) => (i % 3 === 1 ? 0 : v));
+}
+
+function rippleAt(p: Vec, t: number) {
+  for (let j = 0; j < p.length; j += 3) {
+    const x = p[j], z = p[j + 2];
+    const d = Math.sqrt(x * x + z * z);
+    p[j + 1] = -Math.sin(d * 9 - t * 2.4) * 0.16 * (1.1 - d * 0.55) - (x * x - z * z) * 0.12;
+  }
+}
+
 function atom(n: number): Vec {
   const r = rand(1);
   const p = new Float32Array(n * 3);
@@ -130,7 +159,7 @@ export function surface(n: number, f: (x: number, y: number) => number): Vec {
   return p;
 }
 
-export const SHAPES = ['Atom', 'Saddle', 'Helix', 'Torus'] as const;
+export const SHAPES = ['Orbital', 'Atom', 'Saddle', 'Helix', 'Torus', 'Ripple'] as const;
 
 export interface ParticleController {
   /** Morph to a built-in shape by index. */
@@ -150,9 +179,11 @@ export function startParticles(canvas: HTMLCanvasElement, labels: HTMLElement[] 
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const small = window.matchMedia('(max-width: 767px)').matches;
   const N = small ? 2600 : 5200;
-  const shapes = [atom(N), saddle(N), helix(N), torus(N)];
+  const ripple = rippleGrid(N);
+  const shapes = [orbitalLogo(N), atom(N), saddle(N), helix(N), torus(N), ripple];
+  const LOGO = 0;
   // Tilt applied per shape so each reads well from the default camera.
-  const tilts = [0.9, 0.35, 0.15, 0.55];
+  const tilts = [0.05, 0.9, 0.35, 0.15, 0.55, 0.5];
   const CUSTOM_TILT = 0.45;
   const seeds = new Float32Array(N).map((_, i) => (i * 9301 + 49297) % 233280 / 233280);
 
@@ -192,7 +223,13 @@ export function startParticles(canvas: HTMLCanvasElement, labels: HTMLElement[] 
   // After a visitor picks a shape, leave it alone this long before auto-cycling resumes.
   const USER_HOLD = 14;
   const ease = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
-  const colors = ['#2f6bff', '#5b8cff', '#7dd3fc', '#e8f0ff'];
+  const BLUE = [[47, 107, 255], [91, 140, 255], [125, 211, 252], [232, 240, 255]];
+  const CYAN = [[14, 165, 183], [34, 197, 216], [103, 232, 249], [224, 251, 255]];
+  const mixColor = (k: number, c: number) =>
+    `rgb(${BLUE[c].map((v, i) => Math.round(v + (CYAN[c][i] - v) * k)).join(',')})`;
+  // On first load the logo draws itself as a single stroke, like the outro.
+  const DRAW_DELAY = 0.35;
+  const DRAW_TIME = 1.8;
   const start = performance.now();
   const clock = () => (performance.now() - start) / 1000;
 
@@ -203,7 +240,9 @@ export function startParticles(canvas: HTMLCanvasElement, labels: HTMLElement[] 
   let tiltA = tilts[0], tiltB = tilts[0];
   let mStart = -MORPH;
   let index = 0;
-  let nextAuto = HOLD;
+  let nextAuto = HOLD + DRAW_DELAY + DRAW_TIME;
+  let fromLogo = 1;
+  let toLogo = 1;
   const cur = new Float32Array(shapes[0]);
   let listener: (i: number) => void = () => {};
 
@@ -212,6 +251,8 @@ export function startParticles(canvas: HTMLCanvasElement, labels: HTMLElement[] 
     A = new Float32Array(cur);
     const m = Math.min(1, Math.max(0, (t - mStart) / MORPH));
     tiltA = tiltA + (tiltB - tiltA) * ease(m);
+    fromLogo = fromLogo + (toLogo - fromLogo) * ease(m);
+    toLogo = target === shapes[LOGO] ? 1 : 0;
     B = target;
     tiltB = tilt;
     mStart = t;
@@ -235,10 +276,15 @@ export function startParticles(canvas: HTMLCanvasElement, labels: HTMLElement[] 
     }
     const m = reduce ? 1 : ease(Math.min(1, Math.max(0, (t - mStart) / MORPH)));
     const tilt = tiltA + (tiltB - tiltA) * m;
+    const logo = fromLogo + (toLogo - fromLogo) * m;
+    if (A === ripple || B === ripple) rippleAt(ripple, t);
+    // Fraction of the logo stroke drawn so far (1 once the intro has played).
+    const drawn = reduce ? 1 : Math.min(1, Math.max(0, (t - DRAW_DELAY) / DRAW_TIME));
+    const shown = Math.floor(N * (1 - (1 - drawn) * logo));
 
     mx += (tmx - mx) * 0.04;
     my += (tmy - my) * 0.04;
-    const ry = t * 0.18 + mx * 0.5;
+    const ry = (t * 0.18) * (1 - logo) + Math.sin(t * 0.4) * 0.5 * logo + mx * 0.5;
     const rx = tilt + my * 0.25;
     const cyr = Math.cos(ry), syr = Math.sin(ry), cxr = Math.cos(rx), sxr = Math.sin(rx);
 
@@ -270,9 +316,9 @@ export function startParticles(canvas: HTMLCanvasElement, labels: HTMLElement[] 
 
     ctx.globalCompositeOperation = 'lighter';
     const f = 3.2;
-    for (let c = 0; c < colors.length; c++) {
-      ctx.fillStyle = colors[c];
-      for (let i = c; i < N; i += colors.length) {
+    for (let c = 0; c < 4; c++) {
+      ctx.fillStyle = mixColor(logo, c);
+      for (let i = c; i < N; i += 4) {
         const j = i * 3;
         const s = seeds[i];
         const wob = Math.sin(t * 1.3 + s * 40) * 0.012;
@@ -282,6 +328,7 @@ export function startParticles(canvas: HTMLCanvasElement, labels: HTMLElement[] 
         cur[j] = x;
         cur[j + 1] = y;
         cur[j + 2] = z;
+        if (i >= shown) continue;
         // Rotate around Y, then X.
         const x1 = (x + wob) * cyr + z * syr;
         const z1 = -(x + wob) * syr + z * cyr;
@@ -290,7 +337,9 @@ export function startParticles(canvas: HTMLCanvasElement, labels: HTMLElement[] 
         const sc = f / (f + z2);
         const px = cx + x1 * radius * sc;
         const py = cy + y2 * radius * sc;
-        const size = (c === 3 ? 1.6 : 1.1) * sc;
+        // While the logo draws, the leading edge of the stroke glows like a pen tip.
+        const tip = drawn < 1 && shown - i < N * 0.012 ? 2.4 : 1;
+        const size = (c === 3 ? 1.6 : 1.1) * sc * tip;
         ctx.globalAlpha = Math.min(1, 0.35 + (1 - z2) * 0.35);
         ctx.fillRect(px, py, size, size);
       }

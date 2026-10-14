@@ -35,7 +35,7 @@ Making a narrated math animation by hand means hours of lining up voice with vis
 ## Impact
 
 - 217 videos published on the Orbital channel, which has grown to 6,300+ subscribers.
-- 350K+ views on Orbital Shorts, led by visual proofs of the Product Rule (90K) and the Reverse Power Rule (71K).
+- 350K+ views on Orbital Shorts, led by visual proofs of the Product Rule (90K) and Integration by Parts (50K).
 - The complete video library for MAT144.com: concept explainers, step-by-step Excel walkthroughs for every discussion assignment, and problem-by-problem reviews for both exams.
 - Upper-level topics too, from Sylow theory to a proof that the real numbers are uncountable.
 

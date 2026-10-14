@@ -14,7 +14,7 @@ const lines: { text: string; accent?: boolean }[][] = [
   <div data-hero-art class="absolute inset-x-0 top-0 h-[62svh] lg:inset-0 lg:h-auto" aria-hidden="true">
     <div class="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_30%,rgb(47_107_255/0.16),transparent_70%)] lg:bg-[radial-gradient(ellipse_40%_50%_at_70%_33%,rgb(47_107_255/0.18),transparent_70%)]"></div>
     <canvas data-particles class="absolute inset-0 h-full w-full"></canvas>
-    <div class="pointer-events-none absolute inset-0 hidden md:block">
+    <div class="pointer-events-none absolute inset-0 hidden md:block lg:hidden xl:block">
       {projects.map((p) => (
         <span data-orbit-label class="absolute left-0 top-0 inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-white/15 bg-white/[0.06] px-3 py-1.5 font-mono text-[11px] text-fg/85 backdrop-blur-md will-change-transform">
           <span class="h-1.5 w-1.5 rounded-full bg-[#5b8cff]"></span>{p.data.name}
@@ -74,7 +74,7 @@ const lines: { text: string; accent?: boolean }[][] = [
         </div>
       </div>
       <!-- Floating glass stat (real numbers from Axiom) -->
-      <div data-reveal data-delay="0.9" class="glass hidden w-60 justify-self-end rounded-2xl p-4 lg:col-span-4 lg:block">
+      <div data-reveal data-delay="0.9" class="glass hidden w-60 justify-self-end rounded-2xl p-4 lg:col-span-4 xl:block">
         <p class="font-mono text-[10px] uppercase tracking-[0.14em] text-muted">Feedback per student</p>
         <div class="mt-4 space-y-3">
           <div>

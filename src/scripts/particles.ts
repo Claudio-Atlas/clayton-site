@@ -124,10 +124,13 @@ export function startParticles(canvas: HTMLCanvasElement, labels: HTMLElement[] 
     h = rect.height;
     canvas.width = Math.round(w * dpr);
     canvas.height = Math.round(h * dpr);
-    const wide = w >= 1024;
-    cx = w * (wide ? 0.73 : 0.5);
-    cy = h * (wide ? 0.33 : 0.42);
-    radius = Math.min(w * (wide ? 0.2 : 0.32), h * (wide ? 0.24 : 0.26));
+    // Match the CSS lg breakpoint (viewport width, scrollbar included), not the canvas width.
+    const wide = window.matchMedia('(min-width: 1024px)').matches;
+    // Between 1024 and 1279px the text column is close to the shape, so keep it smaller and further right.
+    const snug = wide && !window.matchMedia('(min-width: 1280px)').matches;
+    cx = w * (wide ? (snug ? 0.77 : 0.73) : 0.5);
+    cy = h * (wide ? (snug ? 0.3 : 0.33) : 0.42);
+    radius = Math.min(w * (wide ? (snug ? 0.16 : 0.2) : 0.32), h * (wide ? (snug ? 0.21 : 0.24) : 0.26));
   };
   resize();
   new ResizeObserver(resize).observe(canvas);

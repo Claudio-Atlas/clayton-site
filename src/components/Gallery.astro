@@ -11,6 +11,13 @@ import mini from '../assets/work/mat144/mini.jpg';
 import mHome from '../assets/work/mat144/m-home.jpg';
 import mReview from '../assets/work/mat144/m-review.jpg';
 import mVideos from '../assets/work/mat144/m-videos.jpg';
+import gSetup from '../assets/work/grader/setup.jpg';
+import gRunning from '../assets/work/grader/running.jpg';
+import gResults from '../assets/work/grader/results.jpg';
+import gReview from '../assets/work/grader/review.jpg';
+import aPicker from '../assets/work/axiom/picker.jpg';
+import aInserted from '../assets/work/axiom/inserted.jpg';
+import aLibrary from '../assets/work/axiom/library.jpg';
 
 interface Props {
   kind: 'orbital' | 'mat144' | 'grader' | 'axiom';
@@ -29,6 +36,26 @@ const desktopShots = [
   { src: videos, alt: 'The video library' },
   { src: mini, alt: 'Topic 1 mini lessons' },
 ];
+const shotSets = {
+  grader: {
+    note: 'Screens from the real app, run with a made-up class of 20. No student data.',
+    shots: [
+      { src: gSetup, alt: 'Drop a ZIP of submissions and pick the assignment' },
+      { src: gRunning, alt: 'Live progress while the class is graded' },
+      { src: gResults, alt: 'Results, with anything that needs a human look flagged' },
+      { src: gReview, alt: 'Review a student: grade sheet beside their workbook formulas' },
+    ],
+  },
+  axiom: {
+    note: 'The real extension running on a mock reply page with a made-up student.',
+    shots: [
+      { src: aPicker, alt: 'Type / and a keyword: the picker narrows 165 responses' },
+      { src: aInserted, alt: 'A full, formatted response inserted with the student\u2019s name' },
+      { src: aLibrary, alt: 'The library manager: folders, tags, import and export' },
+    ],
+  },
+} as const;
+
 const phoneShots = [
   { src: mHome, alt: 'mat144.com home on a phone' },
   { src: mReview, alt: 'A review question on a phone' },
@@ -80,6 +107,21 @@ const phoneShots = [
       {phoneShots.map((s, i) => (
         <figure data-reveal data-delay={String(i * 0.08)} class="overflow-hidden rounded-[22px] border border-line-strong bg-black p-1.5 md:rounded-[32px] md:p-2">
           <Image src={s.src} alt={s.alt} widths={[300, 600]} sizes="(min-width: 768px) 360px, 30vw" class="w-full rounded-[16px] md:rounded-[24px]" loading="lazy" />
+        </figure>
+      ))}
+    </div>
+  </section>
+)}
+
+{(kind === 'grader' || kind === 'axiom') && (
+  <section class="site-container pb-20 md:pb-28">
+    <p data-reveal class="eyebrow">Inside the app</p>
+    <p data-reveal class="mt-3 font-mono text-xs text-faint">{shotSets[kind].note}</p>
+    <div class="mt-6 grid gap-4 md:grid-cols-2">
+      {shotSets[kind].shots.map((s, i) => (
+        <figure data-reveal data-delay={String((i % 2) * 0.08)} class="overflow-hidden rounded-2xl border border-line bg-surface">
+          <Image src={s.src} alt={s.alt} widths={[640, 1200]} sizes="(min-width: 768px) 570px, 100vw" class="w-full" loading="lazy" />
+          <figcaption class="px-4 py-3 font-mono text-[11px] text-faint">{s.alt}</figcaption>
         </figure>
       ))}
     </div>

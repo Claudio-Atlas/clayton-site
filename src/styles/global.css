@@ -80,6 +80,13 @@
     .site-container { padding-inline: 48px; }
   }
 
+  /* Bigger touch area for small text links, without shifting layout. */
+  .tap {
+    display: inline-block;
+    padding-block: 12px;
+    margin-block: -12px;
+  }
+
   .eyebrow {
     font-family: var(--font-mono);
     font-size: 12px;

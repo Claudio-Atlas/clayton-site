@@ -1,0 +1,16 @@
+---
+import { Image } from 'astro:assets';
+import results from '../../assets/work/grader/results.jpg';
+import review from '../../assets/work/grader/review.jpg';
+
+// The real MA Grader desktop app, rendered with made-up students.
+---
+
+<div class="relative h-full w-full">
+  <div class="absolute inset-0 right-[22%] overflow-hidden rounded-xl border border-line bg-[#0b0e14] md:rounded-2xl">
+    <Image src={results} alt="MA Grader: grading complete for a batch of 20" widths={[640, 1280]} sizes="(min-width: 1024px) 520px, 80vw" class="h-full w-full object-cover object-left-top" loading="lazy" />
+  </div>
+  <div class="absolute bottom-[-3%] right-0 w-[56%] overflow-hidden rounded-xl border border-line-strong shadow-2xl shadow-black/70 md:rounded-2xl">
+    <Image src={review} alt="MA Grader: reviewing one student's grade sheet next to their workbook" widths={[480, 960]} sizes="(min-width: 1024px) 380px, 55vw" class="w-full" loading="lazy" />
+  </div>
+</div>

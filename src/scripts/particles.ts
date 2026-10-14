@@ -125,7 +125,7 @@ export function startParticles(canvas: HTMLCanvasElement, labels: HTMLElement[] 
     canvas.width = Math.round(w * dpr);
     canvas.height = Math.round(h * dpr);
     const wide = w >= 1024;
-    cx = w * (wide ? 0.7 : 0.5);
+    cx = w * (wide ? 0.73 : 0.5);
     cy = h * (wide ? 0.33 : 0.42);
     radius = Math.min(w * (wide ? 0.2 : 0.32), h * (wide ? 0.24 : 0.26));
   };

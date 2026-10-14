@@ -1,0 +1,16 @@
+---
+import { Image } from 'astro:assets';
+import inserted from '../../assets/work/axiom/inserted.jpg';
+import picker from '../../assets/work/axiom/picker-crop.jpg';
+
+// The real Axiom extension running on a mock reply page with a made-up student.
+---
+
+<div class="relative h-full w-full">
+  <div class="absolute inset-0 left-[20%] overflow-hidden rounded-xl border border-line bg-[#f4f5f8] md:rounded-2xl">
+    <Image src={inserted} alt="A full feedback response inserted into a discussion reply" widths={[640, 1280]} sizes="(min-width: 1024px) 520px, 80vw" class="h-full w-full object-cover object-top" loading="lazy" />
+  </div>
+  <div class="absolute bottom-[4%] left-0 w-[40%] overflow-hidden rounded-xl border border-white/20 shadow-2xl shadow-black/70 md:rounded-2xl">
+    <Image src={picker} alt="Axiom's slash-command picker matching '/slopeinv'" widths={[320, 640]} sizes="(min-width: 1024px) 260px, 40vw" class="w-full" loading="lazy" />
+  </div>
+</div>

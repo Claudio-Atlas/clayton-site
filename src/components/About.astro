@@ -4,6 +4,8 @@ const credentials = [
   { title: 'BS, Mathematics · BA, Economics', where: 'Chapman University' },
   { title: 'Actuarial Exam P', where: 'Society of Actuaries' },
   { title: 'Mathematics Faculty', where: 'GCU · online & on ground' },
+  { title: 'Co-founder', where: 'Onyx Core Enterprises', href: 'https://onyxcoreenterprises.org' },
+  { title: 'Textbook author', where: 'Calculus, Differential Equations & more' },
 ];
 
 const statement =
@@ -27,15 +29,20 @@ const statement =
       </p>
 
       <p data-reveal class="mt-10 max-w-2xl text-lg leading-relaxed text-muted">
-        I currently teach at Grand Canyon University, online and on ground. Each tool on this site is used
-        in a real course before I call it done.
+        I teach at Grand Canyon University, online and on ground, and co-founded Onyx Core Enterprises to
+        turn these tools into products. Everything here I designed and built myself, and each tool is used in
+        a real course before I call it done.
       </p>
 
       <ul class="mt-12 grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2">
         {credentials.map((c, i) => (
           <li data-reveal data-delay={String(0.05 * i)} class="bg-ink p-5 sm:p-6">
             <p class="font-medium text-fg">{c.title}</p>
-            <p class="mt-1 font-mono text-xs text-faint">{c.where}</p>
+            {c.href ? (
+              <a href={c.href} target="_blank" rel="noopener" class="tap mt-1 font-mono text-xs text-faint transition-colors hover:text-fg">{c.where} ↗</a>
+            ) : (
+              <p class="mt-1 font-mono text-xs text-faint">{c.where}</p>
+            )}
           </li>
         ))}
       </ul>

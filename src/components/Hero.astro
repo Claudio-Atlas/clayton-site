@@ -4,9 +4,8 @@ import { getCollection } from 'astro:content';
 const projects = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
 
 const lines: { text: string; accent?: boolean }[][] = [
-  [{ text: 'I build the tools' }],
-  [{ text: 'math teaching', accent: true }],
-  [{ text: 'runs on.' }],
+  [{ text: 'Math education,' }],
+  [{ text: 'engineered.', accent: true }],
 ];
 ---
 
@@ -44,12 +43,12 @@ const lines: { text: string; accent?: boolean }[][] = [
   <div class="site-container relative z-10 mt-auto pb-8 pt-[50svh] md:pb-10 lg:pt-40">
     <div data-reveal class="inline-flex items-center gap-2 rounded-full border border-[#5b8cff]/40 bg-[#2f6bff]/10 px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.12em] text-[#a9c1ff] backdrop-blur">
       <span class="h-1.5 w-1.5 rounded-full bg-[#5b8cff] shadow-[0_0_8px_#5b8cff]"></span>
-      Math educator · EdTech builder
+      Educator · Founder · Builder
     </div>
 
     <div class="mt-6 grid items-end gap-8 lg:grid-cols-12">
       <div class="lg:col-span-8">
-        <h1 data-split class="display text-[clamp(2.75rem,7vw,6rem)]">
+        <h1 data-split class="display text-[clamp(3rem,min(8.4vw,12svh),7rem)] lg:text-[clamp(3rem,min(7.3vw,12svh),7rem)]">
           {lines.map((line) => (
             <span class="block">
               {line.map((part) =>
@@ -64,8 +63,9 @@ const lines: { text: string; accent?: boolean }[][] = [
         </h1>
         <div data-reveal data-delay="0.5" class="mt-7 flex flex-col gap-6 md:flex-row md:items-center md:gap-8">
           <p class="max-w-md text-base leading-relaxed text-muted md:text-[17px]">
-            I'm Clayton Ragsdale, mathematics faculty at Grand Canyon University. I design and ship
-            education technology that real students use every week.
+            I'm Clayton Ragsdale: math faculty at Grand Canyon University and co-founder of
+            <a href="https://onyxcoreenterprises.org" target="_blank" rel="noopener" class="text-fg underline decoration-white/25 underline-offset-4 hover:decoration-white">Onyx Core Enterprises</a>.
+            I design and build every product myself, and I'm open to roles, contracts and partnerships.
           </p>
           <div class="flex shrink-0 flex-wrap gap-3">
             <a href="#work" class="btn btn-blue" data-magnetic>See the work <span class="arrow" aria-hidden="true">→</span></a>

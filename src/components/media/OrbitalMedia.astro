@@ -1,0 +1,29 @@
+---
+import { Image } from 'astro:assets';
+import big from '../../assets/work/orbital/ej8FP-hBsSs.jpg';
+import a from '../../assets/work/orbital/USmfu88O0ew.jpg';
+import b from '../../assets/work/orbital/dbtPm9-hOBI.jpg';
+import c from '../../assets/work/orbital/kVKq8GK1sCE.jpg';
+
+// Real frames from the Orbital channel, kept at their native 16:9.
+const small = [
+  { src: a, alt: 'Orbital video: Every Group of Order 15 is Cyclic' },
+  { src: b, alt: 'Orbital video: Linear regression in Excel' },
+  { src: c, alt: 'Orbital video: Undo the Percent, Exam 1 Review' },
+];
+---
+
+<div class="space-y-2 md:space-y-3">
+  <div class="relative overflow-hidden rounded-xl md:rounded-2xl">
+    <Image src={big} alt="Orbital video: MAT 144 Exam 2 Review, Problem 13" widths={[640, 1280]} sizes="(min-width: 1024px) 640px, 90vw" class="aspect-video w-full object-cover" loading="lazy" />
+    <div class="absolute inset-x-0 bottom-0 flex items-center justify-between bg-gradient-to-t from-black/85 to-transparent px-4 pb-3 pt-10 font-mono text-[10px] text-fg/80">
+      <span>cue sync ±0.033s</span>
+      <span class="text-signal">● rendered · 5 agents passed</span>
+    </div>
+  </div>
+  <div class="grid grid-cols-3 gap-2 md:gap-3">
+    {small.map((s) => (
+      <Image src={s.src} alt={s.alt} widths={[240, 480]} sizes="(min-width: 1024px) 210px, 30vw" class="aspect-video w-full rounded-lg object-cover md:rounded-xl" loading="lazy" />
+    ))}
+  </div>
+</div>

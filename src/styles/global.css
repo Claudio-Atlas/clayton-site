@@ -1,131 +1,322 @@
 @import "tailwindcss";
+@import "@fontsource-variable/geist";
+@import "@fontsource-variable/geist-mono";
+@import "@fontsource/instrument-serif/400.css";
+@import "@fontsource/instrument-serif/400-italic.css";
+
+@theme {
+  --font-sans: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono Variable", ui-monospace, SFMono-Regular, monospace;
+  --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
+
+  --color-ink: #06070a;
+  --color-surface: #0c0e13;
+  --color-raised: #12151c;
+  --color-line: rgb(255 255 255 / 0.08);
+  --color-line-strong: rgb(255 255 255 / 0.14);
+  --color-fg: #f2f3f5;
+  --color-muted: #9a9fab;
+  --color-faint: #5d626e;
+  --color-accent: #8fa4ff;
+  --color-accent-soft: rgb(143 164 255 / 0.14);
+  --color-signal: #6ee7c8;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
 
 @layer base {
-  :root {
-    --bg-primary: #000000;
-    --bg-secondary: #0a0a0a;
-    --text-primary: #ffffff;
-    --text-secondary: rgba(255, 255, 255, 0.6);
-    --text-muted: rgba(255, 255, 255, 0.4);
-    --border: rgba(255, 255, 255, 0.1);
-    --accent: #3b82f6;
-  }
-
   html {
-    scroll-behavior: smooth;
+    background: var(--color-ink);
+    color: var(--color-fg);
+    color-scheme: dark;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-x: clip;
   }
 
   body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
+    font-family: var(--font-sans);
+    background: var(--color-ink);
     line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
   }
 
-  a {
-    color: inherit;
-    text-decoration: none;
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-ink);
   }
 
-  section {
-    padding: 120px 0;
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 6px;
   }
 
-  @media (max-width: 768px) {
-    section {
-      padding: 80px 0;
-    }
+  /* Lenis */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-stopped {
+    overflow: clip;
   }
 }
 
 @layer components {
   .site-container {
     width: 100%;
-    max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 48px;
-    padding-right: 48px;
+    max-width: 1240px;
+    margin-inline: auto;
+    padding-inline: 16px;
+  }
+  @media (min-width: 640px) {
+    .site-container { padding-inline: 32px; }
+  }
+  @media (min-width: 1024px) {
+    .site-container { padding-inline: 48px; }
   }
 
-  @media (max-width: 768px) {
-    .site-container {
-      padding-left: 24px;
-      padding-right: 24px;
-    }
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 18px;
+    height: 1px;
+    background: var(--color-accent);
   }
 
-  .nav-blur {
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+  .display {
+    font-weight: 500;
+    letter-spacing: -0.035em;
+    line-height: 0.98;
   }
 
-  .gradient-text {
-    background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.7) 100%);
+  .serif-accent {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+
+  .text-gradient {
+    background: linear-gradient(180deg, #ffffff 0%, rgb(255 255 255 / 0.62) 100%);
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
     background-clip: text;
-  }
-
-  .card {
-    background: var(--bg-secondary);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 32px;
-    transition: all 0.3s ease;
-  }
-
-  .card:hover {
-    border-color: rgba(255, 255, 255, 0.2);
-    transform: translateY(-2px);
+    color: transparent;
   }
 
   .btn {
+    position: relative;
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-size: 14px;
+    gap: 10px;
+    height: 48px;
+    padding-inline: 22px;
+    border-radius: 999px;
+    font-size: 15px;
     font-weight: 500;
-    transition: all 0.2s ease;
-    cursor: pointer;
+    transition: transform 0.4s var(--ease-out-expo), background-color 0.3s, border-color 0.3s, box-shadow 0.4s;
+    will-change: transform;
   }
-
   .btn-primary {
-    background: var(--text-primary);
-    color: var(--bg-primary);
+    background: var(--color-fg);
+    color: var(--color-ink);
+    box-shadow: 0 0 0 1px rgb(255 255 255 / 0.1), 0 10px 40px -10px rgb(143 164 255 / 0.55);
   }
-
   .btn-primary:hover {
-    opacity: 0.9;
-    transform: translateY(-1px);
+    box-shadow: 0 0 0 1px rgb(255 255 255 / 0.2), 0 14px 50px -8px rgb(143 164 255 / 0.8);
+  }
+  .btn-blue {
+    background: #2f6bff;
+    color: #fff;
+    box-shadow: 0 0 0 1px rgb(255 255 255 / 0.12) inset, 0 10px 40px -8px rgb(47 107 255 / 0.7);
+  }
+  .btn-blue:hover {
+    background: #3d78ff;
+    box-shadow: 0 0 0 1px rgb(255 255 255 / 0.2) inset, 0 14px 50px -6px rgb(47 107 255 / 0.9);
   }
 
-  .btn-secondary {
-    background: transparent;
-    color: var(--text-primary);
-    border: 1px solid var(--border);
+  .glass {
+    border: 1px solid rgb(255 255 255 / 0.12);
+    background: linear-gradient(180deg, rgb(255 255 255 / 0.08), rgb(255 255 255 / 0.03));
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    box-shadow: 0 1px 0 rgb(255 255 255 / 0.08) inset, 0 20px 40px -20px rgb(0 0 0 / 0.6);
   }
 
-  .btn-secondary:hover {
-    border-color: rgba(255, 255, 255, 0.3);
+  .btn-ghost {
+    border: 1px solid var(--color-line-strong);
+    color: var(--color-fg);
+    background: rgb(255 255 255 / 0.02);
+  }
+  .btn-ghost:hover {
+    border-color: rgb(255 255 255 / 0.3);
+    background: rgb(255 255 255 / 0.05);
+  }
+  .btn .arrow {
+    transition: transform 0.4s var(--ease-out-expo);
+  }
+  .btn:hover .arrow {
+    transform: translateX(3px);
   }
 
-  .fade-in {
-    animation: fadeIn 0.6s ease-out forwards;
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    height: 28px;
+    padding-inline: 11px;
+    border-radius: 999px;
+    border: 1px solid var(--color-line);
+    background: rgb(255 255 255 / 0.03);
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--color-muted);
+    white-space: nowrap;
+  }
+
+  /* Card with cursor-following spotlight (vars set in motion.ts) */
+  .spotlight {
+    position: relative;
+    isolation: isolate;
+    background: linear-gradient(180deg, rgb(255 255 255 / 0.035), rgb(255 255 255 / 0.01));
+    border: 1px solid var(--color-line);
+    overflow: hidden;
+  }
+  .spotlight::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.5s;
+    background: radial-gradient(520px circle at var(--mx, 50%) var(--my, 50%), rgb(143 164 255 / 0.12), transparent 45%);
+  }
+  .spotlight:hover::before {
+    opacity: 1;
+  }
+
+  .hairline-grid {
+    background-image:
+      linear-gradient(to right, rgb(255 255 255 / 0.045) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(255 255 255 / 0.045) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+
+  .noise {
+    pointer-events: none;
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Self-drawing SVG strokes: give the path pathLength="1" */
+  .draw {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+  }
+  .in .draw,
+  .draw.in {
+    animation: draw 2.4s var(--ease-out-expo) forwards;
+    animation-delay: var(--delay, 0s);
+  }
+
+  /* Scroll reveals: hidden only when JS is running */
+  .js [data-reveal] {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  .js .word-mask > span {
+    transform: translateY(105%);
+  }
+  .js [data-intro] {
+    opacity: 0;
+  }
+  .js [data-hairline] {
+    transform: scaleX(0);
+  }
+  .intro-line {
+    display: inline-block;
+    overflow: hidden;
+  }
+  .intro-line > span {
+    display: inline-block;
+  }
+  .js .intro-line > span {
+    transform: translateY(105%);
+  }
+
+  .word-mask {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
+    padding-bottom: 0.08em;
+    margin-bottom: -0.08em;
+  }
+  .word-mask > span {
+    display: inline-block;
+  }
+
+  .marquee {
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  }
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee 60s linear infinite;
+  }
+  .marquee:hover .marquee-track {
+    animation-play-state: paused;
   }
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
+@keyframes draw {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, -12px, 0); }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.8); opacity: 0.7; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
   }
-  to {
+  .js [data-reveal],
+  .js [data-intro],
+  .js [data-hairline],
+  .js .intro-line > span,
+  .js .word-mask > span {
     opacity: 1;
-    transform: translateY(0);
+    transform: none;
   }
+  .draw { stroke-dashoffset: 0; }
+  .marquee-track { animation: none; }
 }

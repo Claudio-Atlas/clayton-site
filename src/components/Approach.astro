@@ -1,0 +1,48 @@
+---
+const principles = [
+  {
+    title: 'Start in the classroom',
+    body: 'Every tool begins as a real problem in a course I teach, and it is used with real students before it is called done.',
+  },
+  {
+    title: 'Measure, then ship',
+    body: 'Before-and-after timings, byte-for-byte refactor checks, grading audits and layout tests at every screen size.',
+  },
+  {
+    title: 'AI-assisted, human-owned',
+    body: 'I direct AI coding tools like Claude Code to move fast, and I review every change, every video and every grade.',
+  },
+  {
+    title: 'Private by default',
+    body: 'No student accounts or data where none are needed. Progress stays on the device; API keys stay on the instructor’s machine.',
+  },
+];
+---
+
+<section id="approach" class="light relative z-10 rounded-t-[36px] bg-[#eceef3] py-24 text-ink md:rounded-t-[56px] md:py-36">
+  <div class="site-container">
+    <div class="mb-14 flex flex-col gap-6 md:mb-24 md:flex-row md:items-end md:justify-between">
+      <div>
+        <p data-reveal class="eyebrow !text-ink/55">Approach</p>
+        <h2 data-reveal data-delay="0.05" class="display mt-5 text-[clamp(2.6rem,8vw,7rem)] text-ink">
+          How I <span class="serif-accent">build.</span>
+        </h2>
+      </div>
+      <p data-reveal data-delay="0.1" class="max-w-sm text-ink/60">
+        Four rules that every project on this site follows, from the first commit to the first student.
+      </p>
+    </div>
+
+    <ol class="border-t border-ink/15">
+      {principles.map((p, i) => (
+        <li data-reveal data-delay={String(i * 0.06)} class="group grid grid-cols-[auto_1fr] items-baseline gap-x-6 border-b border-ink/15 py-8 sm:gap-x-10 md:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] md:py-12">
+          <span class="display text-[clamp(2.8rem,8vw,7.5rem)] leading-none text-ink transition-colors duration-500 group-hover:text-[#4f63d9]">0{i + 1}</span>
+          <div class="max-w-xl">
+            <h3 class="text-[clamp(1.25rem,2.2vw,2rem)] font-medium tracking-tight">{p.title}</h3>
+            <p class="mt-3 text-[clamp(0.95rem,1.4vw,1.15rem)] leading-relaxed text-ink/60">{p.body}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>

@@ -1,0 +1,44 @@
+---
+const credentials = [
+  { title: 'MS, Mathematics', where: 'Grand Canyon University' },
+  { title: 'BS, Mathematics · BA, Economics', where: 'Chapman University' },
+  { title: 'Actuarial Exam P', where: 'Society of Actuaries' },
+  { title: 'Mathematics Faculty', where: 'GCU · online & on ground' },
+];
+
+const statement =
+  "I've taught college mathematics for over six years, and every week shows me exactly where students get stuck and where instructors lose hours. So I build the fix: lessons that explain the step students keep missing, a study site that works on the phone they actually use, and grading tools that give better feedback in a fraction of the time.";
+---
+
+<section id="about" class="relative overflow-x-clip border-t border-line py-24 md:py-36">
+  <div class="site-container grid gap-12 lg:grid-cols-12 lg:gap-20">
+    <div class="lg:col-span-4">
+      <div class="lg:sticky lg:top-32">
+        <p data-reveal class="eyebrow">About</p>
+        <h2 data-reveal data-delay="0.05" class="display mt-5 text-[clamp(2.2rem,5vw,3.75rem)] text-gradient">
+          Educator first. <span class="serif-accent text-fg [-webkit-text-fill-color:currentColor]">Engineer by necessity.</span>
+        </h2>
+      </div>
+    </div>
+
+    <div class="lg:col-span-8">
+      <p data-scrub class="text-[clamp(1.5rem,3.2vw,2.6rem)] font-medium leading-[1.25] tracking-[-0.02em] text-fg">
+        {statement.split(' ').map((w) => <span class="scrub-word">{w} </span>)}
+      </p>
+
+      <p data-reveal class="mt-10 max-w-2xl text-lg leading-relaxed text-muted">
+        I currently teach at Grand Canyon University, online and on ground. Each tool on this site is used
+        in a real course before I call it done.
+      </p>
+
+      <ul class="mt-12 grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2">
+        {credentials.map((c, i) => (
+          <li data-reveal data-delay={String(0.05 * i)} class="bg-ink p-5 sm:p-6">
+            <p class="font-medium text-fg">{c.title}</p>
+            <p class="mt-1 font-mono text-xs text-faint">{c.where}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>

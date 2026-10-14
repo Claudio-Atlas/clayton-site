@@ -1,0 +1,50 @@
+---
+const email = 'ragsdale.clay@gmail.com';
+const socials = [
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/clayton-ragsdale/' },
+  { label: 'GitHub', href: 'https://github.com/Claudio-Atlas' },
+  { label: 'YouTube', href: 'https://www.youtube.com/@orbital-solver' },
+];
+---
+
+<section id="contact" class="relative overflow-hidden border-t border-line py-28 md:py-44">
+  <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+    <div class="absolute left-1/2 top-full h-[700px] w-[1100px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/20 blur-[160px]"></div>
+    <svg viewBox="0 0 1200 400" class="absolute inset-x-0 bottom-0 w-full opacity-60" fill="none" preserveAspectRatio="none" data-inview>
+      <path class="draw" pathLength="1" d="M0 390 C 300 390, 420 230, 600 230 S 900 390, 1200 390" stroke="url(#contact-g)" stroke-width="1.5" />
+      <defs>
+        <linearGradient id="contact-g" x1="0" x2="1">
+          <stop offset="0" stop-color="#8fa4ff" stop-opacity="0" />
+          <stop offset=".5" stop-color="#8fa4ff" />
+          <stop offset="1" stop-color="#6ee7c8" stop-opacity="0" />
+        </linearGradient>
+      </defs>
+    </svg>
+  </div>
+
+  <div class="site-container relative text-center">
+    <p data-reveal class="eyebrow justify-center">Contact</p>
+    <h2 data-reveal data-delay="0.05" class="display mx-auto mt-6 max-w-4xl text-[clamp(2.6rem,7vw,5.5rem)] text-gradient">
+      Let's build something students <span class="serif-accent text-fg [-webkit-text-fill-color:currentColor]">actually use.</span>
+    </h2>
+    <p data-reveal data-delay="0.1" class="mx-auto mt-6 max-w-xl text-lg text-muted">
+      Hiring for an EdTech role, or need course content, assessment tooling or an AI workflow built? I'd love to hear about it.
+    </p>
+
+    <div data-reveal data-delay="0.15" class="mt-12 flex flex-col items-center justify-center gap-3 sm:flex-row">
+      <a href={`mailto:${email}`} class="btn btn-primary" data-magnetic>
+        Email me <span class="arrow" aria-hidden="true">→</span>
+      </a>
+      <button type="button" class="btn btn-ghost font-mono !text-[13px]" data-copy={email} data-magnetic>
+        <span>{email}</span>
+        <span class="text-faint" data-copy-label>Copy</span>
+      </button>
+    </div>
+
+    <div data-reveal data-delay="0.2" class="mt-10 flex justify-center gap-8 text-sm text-muted">
+      {socials.map((s) => (
+        <a href={s.href} target="_blank" rel="noopener" class="transition-colors hover:text-fg">{s.label} ↗</a>
+      ))}
+    </div>
+  </div>
+</section>

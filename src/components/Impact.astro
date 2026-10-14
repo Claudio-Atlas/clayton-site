@@ -1,0 +1,36 @@
+---
+const stats = [
+  { count: 217, suffix: '', label: 'Animated math lessons published', note: 'Orbital' },
+  { count: 6300, suffix: '+', label: 'YouTube subscribers', note: '@orbital-solver' },
+  { count: 1000, prefix: '~', suffix: '', label: 'Students reached by Axiom feedback', note: 'Axiom' },
+  { count: 100, suffix: '+', label: 'Hours of grading saved', note: 'MA Grader' },
+];
+---
+
+<section id="impact" class="relative border-y border-line bg-surface/60">
+  <div class="site-container">
+    <dl class="grid grid-cols-2 lg:grid-cols-4">
+      {stats.map((s, i) => (
+        <div
+          data-reveal
+          data-delay={String(i * 0.08)}
+          class:list={[
+            'flex flex-col justify-between gap-6 py-10 md:py-14',
+            i % 2 === 1 && 'border-l border-line pl-5 sm:pl-8',
+            i >= 2 && 'border-t border-line lg:border-t-0',
+            i === 2 && 'lg:border-l lg:pl-8',
+            i === 3 && 'lg:pl-8',
+          ]}
+        >
+          <dt class="order-2 text-sm leading-snug text-muted">
+            {s.label}
+            <span class="mt-1 block font-mono text-[11px] text-faint">{s.note}</span>
+          </dt>
+          <dd class="order-1 display text-[clamp(2.4rem,5vw,4rem)] tabular-nums text-fg">
+            {s.prefix}<span data-count={s.count}>{s.count.toLocaleString('en-US')}</span><span class="text-accent">{s.suffix}</span>
+          </dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</section>

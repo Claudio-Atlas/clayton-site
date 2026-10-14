@@ -1,0 +1,17 @@
+---
+import OrbitalMedia from './media/OrbitalMedia.astro';
+import Mat144Media from './media/Mat144Media.astro';
+import GraderVisual from './visuals/GraderVisual.astro';
+import AxiomVisual from './visuals/AxiomVisual.astro';
+
+interface Props {
+  kind: 'orbital' | 'mat144' | 'grader' | 'axiom';
+}
+
+const { kind } = Astro.props;
+---
+
+{kind === 'orbital' && <OrbitalMedia />}
+{kind === 'mat144' && <div class="aspect-[16/10] w-full"><Mat144Media /></div>}
+{kind === 'grader' && <GraderVisual />}
+{kind === 'axiom' && <AxiomVisual />}

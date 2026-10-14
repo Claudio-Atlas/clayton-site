@@ -1,0 +1,101 @@
+---
+// A desktop window grading a batch: rows flip to graded one after another.
+const rows = [
+  { name: 'Student 01', score: '48/50' },
+  { name: 'Student 02', score: '50/50' },
+  { name: 'Student 03', score: '41/50' },
+  { name: 'Student 04', score: '46/50' },
+  { name: 'Student 05', score: '50/50' },
+  { name: 'Student 06', score: '44/50' },
+];
+---
+
+<div class="grader relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-line bg-[#080a10]" data-inview aria-hidden="true">
+  <div class="absolute -left-10 -top-10 h-56 w-56 rounded-full bg-accent/15 blur-3xl"></div>
+
+  <div class="absolute inset-[6%] flex flex-col overflow-hidden rounded-xl border border-line-strong bg-[#0d1017] shadow-2xl shadow-black/60">
+    <div class="flex items-center gap-1.5 border-b border-line px-3 py-2">
+      <span class="h-2 w-2 rounded-full bg-white/15"></span>
+      <span class="h-2 w-2 rounded-full bg-white/15"></span>
+      <span class="h-2 w-2 rounded-full bg-white/15"></span>
+      <span class="ml-3 font-mono text-[10px] text-faint">MA Grader · submissions.zip · MA2</span>
+    </div>
+
+    <div class="flex items-center justify-between gap-4 px-4 pt-3">
+      <p class="font-mono text-[10px] text-muted">Grading <span class="counter text-fg"></span></p>
+      <p class="font-mono text-[10px] text-signal done">✓ master sheet written</p>
+    </div>
+    <div class="mx-4 mt-2 h-1 overflow-hidden rounded-full bg-white/10">
+      <div class="bar h-full rounded-full bg-gradient-to-r from-accent to-signal"></div>
+    </div>
+
+    <div class="mt-3 flex-1 divide-y divide-line px-4">
+      {rows.map((r, i) => (
+        <div class="row grid grid-cols-[1fr_auto_auto] items-center gap-3 py-[7px] font-mono text-[10.5px]" style={`--i:${i}`}>
+          <span class="text-muted">{r.name}.xlsx</span>
+          <span class="score text-fg">{r.score}</span>
+          <span class="status chip !h-5 !px-2 !text-[9px] grid [grid-template-areas:'s']">
+            <span class="pending [grid-area:s]">queued</span>
+            <span class="graded text-signal [grid-area:s]">graded</span>
+          </span>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+
+<style>
+  .bar {
+    width: 0;
+  }
+  .in .bar {
+    animation: fill 3.4s cubic-bezier(0.45, 0, 0.55, 1) forwards;
+  }
+  .counter::after {
+    content: '0 / 20';
+  }
+  .in .counter::after {
+    content: '20 / 20';
+    animation: count 3.4s steps(1) forwards;
+  }
+  .score,
+  .graded,
+  .pending {
+    transition: opacity 0.3s;
+    transition-delay: calc(0.4s + var(--i) * 0.5s);
+  }
+  .score,
+  .graded {
+    opacity: 0;
+  }
+  .in .score,
+  .in .graded {
+    opacity: 1;
+  }
+  .in .pending {
+    opacity: 0;
+  }
+  .row {
+    transition: background-color 0.3s;
+  }
+  .done {
+    opacity: 0;
+    transition: opacity 0.5s 3.5s;
+  }
+  .in .done {
+    opacity: 1;
+  }
+  @keyframes fill {
+    to { width: 100%; }
+  }
+  @keyframes count {
+    0% { content: '0 / 20'; }
+    15% { content: '3 / 20'; }
+    30% { content: '6 / 20'; }
+    45% { content: '9 / 20'; }
+    60% { content: '12 / 20'; }
+    75% { content: '15 / 20'; }
+    90% { content: '18 / 20'; }
+    100% { content: '20 / 20'; }
+  }
+</style>

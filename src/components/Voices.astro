@@ -1,0 +1,41 @@
+---
+const reviews = [
+  { text: 'Professor Ragsdale is the best math professor. He makes learning math so interesting. I 100% recommend him if he is teaching a course you are looking at.', course: 'MAT-262' },
+  { text: 'He is a great professor that truly loves what he does! He explains the material simply and is accessible and understanding towards his students.', course: 'MAT-264' },
+  { text: 'Professor Ragsdale is a fantastic math professor. His lectures are clear and well-organized, and he genuinely cares about his students’ understanding.', course: 'MATH-154' },
+  { text: 'He really knows how to teach and makes complex topics understandable. One of the best professors I’ve had.', course: 'MAT-345' },
+];
+---
+
+<section class="relative z-20 -mt-10 rounded-t-[36px] bg-ink py-24 md:-mt-14 md:rounded-t-[56px] md:py-32">
+  <div class="site-container mb-12 flex flex-col gap-6 md:mb-16 md:flex-row md:items-end md:justify-between">
+    <div>
+      <p data-reveal class="eyebrow">From students</p>
+      <h2 data-reveal data-delay="0.05" class="display mt-5 text-[clamp(2rem,4.5vw,3.25rem)] text-gradient">
+        The classroom is the <span class="serif-accent text-fg [-webkit-text-fill-color:currentColor]">test suite.</span>
+      </h2>
+    </div>
+    <a
+      data-reveal
+      data-delay="0.1"
+      href="https://www.ratemyprofessors.com/professor/2791383"
+      target="_blank"
+      rel="noopener"
+      class="group inline-flex items-center gap-3 text-sm text-muted transition-colors hover:text-fg"
+    >
+      <span class="flex gap-0.5 text-[#f5c86b]" aria-hidden="true">★★★★★</span>
+      5.0 on RateMyProfessors <span class="transition-transform group-hover:translate-x-1" aria-hidden="true">↗</span>
+    </a>
+  </div>
+
+  <div class="marquee overflow-hidden" data-reveal>
+    <ul class="marquee-track gap-4 pr-4">
+      {[...reviews, ...reviews].map((r, i) => (
+        <li class="spotlight w-[82vw] max-w-[440px] shrink-0 rounded-2xl p-7" aria-hidden={i >= reviews.length ? 'true' : undefined}>
+          <p class="font-serif text-[1.45rem] leading-snug text-fg/90">“{r.text}”</p>
+          <p class="mt-6 font-mono text-xs text-faint">Student · {r.course}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

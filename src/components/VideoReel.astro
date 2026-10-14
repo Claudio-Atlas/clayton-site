@@ -1,0 +1,66 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+const files = import.meta.glob<{ default: ImageMetadata }>('../assets/work/orbital/*.jpg', { eager: true });
+const thumbs = Object.entries(files).map(([path, mod]) => ({
+  id: path.split('/').pop()!.replace('.jpg', ''),
+  src: mod.default,
+}));
+
+const half = Math.ceil(thumbs.length / 2);
+const rows = [thumbs.slice(0, half), thumbs.slice(half)];
+---
+
+<section data-reel class="relative overflow-hidden border-t border-line py-24 md:py-32">
+  <div class="site-container mb-12 flex flex-col gap-6 md:mb-16 md:flex-row md:items-end md:justify-between">
+    <div>
+      <p data-reveal class="eyebrow">Orbital on YouTube</p>
+      <h2 data-reveal data-delay="0.05" class="display mt-5 text-[clamp(2.2rem,5.5vw,4.25rem)] text-gradient">
+        217 lessons. <span class="serif-accent text-fg [-webkit-text-fill-color:currentColor]">One pipeline.</span>
+      </h2>
+    </div>
+    <a
+      data-reveal
+      data-delay="0.1"
+      href="https://www.youtube.com/@orbital-solver"
+      target="_blank"
+      rel="noopener"
+      class="btn btn-ghost self-start md:self-auto"
+      data-magnetic
+    >
+      Watch the channel <span class="arrow" aria-hidden="true">↗</span>
+    </a>
+  </div>
+
+  <div class="flex flex-col gap-3 md:gap-4">
+    {rows.map((row, r) => (
+      <div class="reel-row flex w-max gap-3 will-change-transform md:gap-4" data-reel-row={r}>
+        {[0, 1, 2].map((copy) =>
+          row.map((t) => (
+            <a
+              href={`https://www.youtube.com/watch?v=${t.id}`}
+              target="_blank"
+              rel="noopener"
+              class="group relative block w-[260px] shrink-0 overflow-hidden rounded-2xl border border-line sm:w-[340px] md:w-[420px]"
+              tabindex={copy === 1 ? undefined : -1}
+              aria-hidden={copy === 1 ? undefined : 'true'}
+            >
+              <Image
+                src={t.src}
+                alt={copy === 1 ? 'Orbital video thumbnail' : ''}
+                widths={[420, 840]}
+                sizes="(min-width: 768px) 420px, 260px"
+                class="aspect-video w-full object-cover transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:scale-[1.04]"
+                loading="lazy"
+              />
+              <span class="pointer-events-none absolute inset-0 grid place-items-center bg-black/0 opacity-0 transition-all duration-500 group-hover:bg-black/40 group-hover:opacity-100">
+                <span class="grid h-14 w-14 place-items-center rounded-full bg-fg text-ink">▶</span>
+              </span>
+            </a>
+          )),
+        )}
+      </div>
+    ))}
+  </div>
+</section>

@@ -1,0 +1,102 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import trailer from '../assets/work/orbital-trailer.jpg';
+import home from '../assets/work/mat144/home.jpg';
+import topics from '../assets/work/mat144/home-topics.jpg';
+import review from '../assets/work/mat144/review.jpg';
+import videos from '../assets/work/mat144/videos.jpg';
+import dq from '../assets/work/mat144/dq.jpg';
+import mini from '../assets/work/mat144/mini.jpg';
+import mHome from '../assets/work/mat144/m-home.jpg';
+import mReview from '../assets/work/mat144/m-review.jpg';
+import mVideos from '../assets/work/mat144/m-videos.jpg';
+
+interface Props {
+  kind: 'orbital' | 'mat144' | 'grader' | 'axiom';
+}
+const { kind } = Astro.props;
+
+const thumbs = Object.values(
+  import.meta.glob<{ default: ImageMetadata }>('../assets/work/orbital/*.jpg', { eager: true }),
+).map((m) => m.default);
+
+const desktopShots = [
+  { src: home, alt: 'mat144.com home page with the course trailer' },
+  { src: topics, alt: 'mat144.com course overview' },
+  { src: review, alt: 'A step-by-step review question' },
+  { src: dq, alt: 'A discussion-question walkthrough' },
+  { src: videos, alt: 'The video library' },
+  { src: mini, alt: 'Topic 1 mini lessons' },
+];
+const phoneShots = [
+  { src: mHome, alt: 'mat144.com home on a phone' },
+  { src: mReview, alt: 'A review question on a phone' },
+  { src: mVideos, alt: 'The video library on a phone' },
+];
+---
+
+{kind === 'orbital' && (
+  <section class="site-container pb-20 md:pb-28">
+    <p data-reveal class="eyebrow">Watch</p>
+    <div data-reveal class="mt-6 overflow-hidden rounded-[22px] border border-line">
+      <button
+        type="button"
+        class="yt group relative block aspect-video w-full"
+        data-yt="F_UZMF0zHms"
+        aria-label="Play the College Mathematics course trailer, made with Orbital"
+      >
+        <Image src={trailer} alt="" widths={[800, 1280]} sizes="(min-width: 1240px) 1144px, 100vw" class="h-full w-full object-cover" loading="lazy" />
+        <span class="absolute inset-0 grid place-items-center bg-black/30 transition-colors group-hover:bg-black/10">
+          <span class="grid h-20 w-20 place-items-center rounded-full bg-fg text-2xl text-ink shadow-[0_0_60px_rgb(143_164_255/0.6)] transition-transform duration-500 group-hover:scale-110">▶</span>
+        </span>
+        <span class="absolute bottom-4 left-5 font-mono text-xs text-fg/80">College Mathematics: every lesson, animated · 1:22</span>
+      </button>
+    </div>
+
+    <p data-reveal class="eyebrow mt-20">From the channel</p>
+    <div class="mt-6 grid grid-cols-2 gap-3 md:grid-cols-4">
+      {thumbs.slice(0, 12).map((t, i) => (
+        <Image data-reveal data-delay={String((i % 4) * 0.05)} src={t} alt="Orbital video thumbnail" widths={[320, 640]} sizes="(min-width: 768px) 280px, 45vw" class="aspect-video w-full rounded-xl border border-line object-cover" loading="lazy" />
+      ))}
+    </div>
+  </section>
+)}
+
+{kind === 'mat144' && (
+  <section class="site-container pb-20 md:pb-28">
+    <p data-reveal class="eyebrow">On a laptop</p>
+    <div class="mt-6 grid gap-4 md:grid-cols-2">
+      {desktopShots.map((s, i) => (
+        <figure data-reveal data-delay={String((i % 2) * 0.08)} class="overflow-hidden rounded-2xl border border-line bg-surface">
+          <Image src={s.src} alt={s.alt} widths={[640, 1200]} sizes="(min-width: 768px) 570px, 100vw" class="w-full" loading="lazy" />
+          <figcaption class="px-4 py-3 font-mono text-[11px] text-faint">{s.alt}</figcaption>
+        </figure>
+      ))}
+    </div>
+
+    <p data-reveal class="eyebrow mt-20">On a phone</p>
+    <div class="mt-6 grid grid-cols-3 gap-3 md:gap-6">
+      {phoneShots.map((s, i) => (
+        <figure data-reveal data-delay={String(i * 0.08)} class="overflow-hidden rounded-[22px] border border-line-strong bg-black p-1.5 md:rounded-[32px] md:p-2">
+          <Image src={s.src} alt={s.alt} widths={[300, 600]} sizes="(min-width: 768px) 360px, 30vw" class="w-full rounded-[16px] md:rounded-[24px]" loading="lazy" />
+        </figure>
+      ))}
+    </div>
+  </section>
+)}
+
+<script>
+  // Load the YouTube player only when someone asks for it.
+  document.querySelectorAll<HTMLButtonElement>('button[data-yt]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://www.youtube-nocookie.com/embed/${btn.dataset.yt}?autoplay=1&rel=0`;
+      iframe.title = btn.getAttribute('aria-label') ?? 'YouTube video';
+      iframe.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
+      iframe.allowFullscreen = true;
+      iframe.className = 'aspect-video w-full';
+      btn.replaceWith(iframe);
+    });
+  });
+</script>

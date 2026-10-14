@@ -1,0 +1,122 @@
+---
+const links = [
+  { label: 'Work', href: '/#work' },
+  { label: 'About', href: '/#about' },
+  { label: 'Approach', href: '/#approach' },
+  { label: 'Contact', href: '/#contact' },
+];
+---
+
+<header id="site-nav" class="fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-500 border-b border-transparent">
+  <div class="site-container">
+    <nav class="flex h-16 items-center justify-between md:h-20" aria-label="Main">
+      <a href="/" data-intro class="group flex items-center gap-3" aria-label="Clayton Ragsdale, home">
+        <span class="relative grid h-8 w-8 place-items-center rounded-lg border border-line-strong bg-white/[0.03] font-mono text-[11px] tracking-tight text-fg transition-colors group-hover:border-accent/60">
+          CR
+        </span>
+        <span class="text-[15px] font-medium tracking-tight text-fg/90">Clayton Ragsdale</span>
+      </a>
+
+      <div class="hidden items-center gap-1 md:flex">
+        {links.map((l) => (
+          <a href={l.href} data-intro class="rounded-full px-4 py-2 text-sm text-muted transition-colors hover:text-fg">{l.label}</a>
+        ))}
+        <span class="mx-2 h-4 w-px bg-line-strong" aria-hidden="true"></span>
+        <a href="https://hub.claytonragsdale.com" data-intro class="rounded-full px-4 py-2 text-sm text-muted transition-colors hover:text-fg">Teaching Hub</a>
+        <a href="/#contact" data-intro class="btn btn-primary ml-2 !h-10 !px-5 !text-sm">Let's talk</a>
+      </div>
+
+      <button
+        id="menu-toggle"
+        data-intro
+        class="relative -mr-2 grid h-11 w-11 place-items-center md:hidden"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <span class="menu-bar absolute h-px w-5 -translate-y-[4px] bg-fg transition-[transform,translate] duration-500"></span>
+        <span class="menu-bar absolute h-px w-5 translate-y-[4px] bg-fg transition-[transform,translate] duration-500"></span>
+      </button>
+    </nav>
+  </div>
+
+</header>
+
+<div
+  id="mobile-menu"
+  class="pointer-events-none fixed inset-0 z-40 bg-ink/95 pt-16 opacity-0 backdrop-blur-xl transition-opacity duration-500 md:hidden"
+  aria-hidden="true"
+  inert
+>
+  <div class="site-container flex h-full flex-col justify-between pb-10 pt-8">
+    <ul class="space-y-1">
+      {links.map((l, i) => (
+        <li class="overflow-hidden">
+          <a href={l.href} class="mobile-link block translate-y-full py-2 text-4xl font-medium tracking-tight text-fg transition-[translate] duration-700" style={`transition-delay:${60 + i * 50}ms`}>
+            {l.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+    <div class="space-y-4">
+      <a href="https://hub.claytonragsdale.com" class="block text-muted">Teaching Hub login →</a>
+      <a href="mailto:ragsdale.clay@gmail.com" class="block font-mono text-sm text-muted">ragsdale.clay@gmail.com</a>
+    </div>
+  </div>
+</div>
+
+<style>
+  #site-nav.scrolled {
+    background-color: rgb(6 7 10 / 0.72);
+    border-color: var(--color-line);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+  }
+  #site-nav.open {
+    background-color: rgb(6 7 10 / 0.95);
+  }
+  #site-nav.open .menu-bar:first-child {
+    translate: none;
+    transform: rotate(45deg);
+  }
+  #site-nav.open .menu-bar:last-child {
+    translate: none;
+    transform: rotate(-45deg);
+  }
+  :global(html.menu-open) #mobile-menu {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  :global(html.menu-open) .mobile-link {
+    translate: 0 0;
+  }
+</style>
+
+<script>
+  const nav = document.getElementById('site-nav')!;
+  const toggle = document.getElementById('menu-toggle')!;
+  const menu = document.getElementById('mobile-menu')!;
+
+  const setOpen = (open: boolean) => {
+    nav.classList.toggle('open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    menu.setAttribute('aria-hidden', String(!open));
+    menu.inert = !open;
+    document.documentElement.classList.toggle('menu-open', open);
+    window.dispatchEvent(new CustomEvent('menu', { detail: open }));
+  };
+
+  toggle.addEventListener('click', () => setOpen(!nav.classList.contains('open')));
+  menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') setOpen(false);
+  });
+  window.matchMedia('(min-width: 768px)').addEventListener('change', (e) => {
+    if (e.matches) setOpen(false);
+  });
+
+  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 24);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+</script>

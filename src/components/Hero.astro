@@ -1,0 +1,119 @@
+---
+import { getCollection } from 'astro:content';
+
+const projects = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
+
+const lines: { text: string; accent?: boolean }[][] = [
+  [{ text: 'I build the tools' }],
+  [{ text: 'math teaching', accent: true }],
+  [{ text: 'runs on.' }],
+];
+---
+
+<section data-hero class="relative isolate flex min-h-[100svh] flex-col overflow-hidden">
+  <!-- Particle shapes: atom → saddle → helix → torus -->
+  <div data-hero-art class="absolute inset-x-0 top-0 h-[62svh] lg:inset-0 lg:h-auto" aria-hidden="true">
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_30%,rgb(47_107_255/0.16),transparent_70%)] lg:bg-[radial-gradient(ellipse_40%_50%_at_70%_33%,rgb(47_107_255/0.18),transparent_70%)]"></div>
+    <canvas data-particles class="absolute inset-0 h-full w-full"></canvas>
+    <div class="pointer-events-none absolute inset-0 hidden md:block">
+      {projects.map((p) => (
+        <span data-orbit-label class="absolute left-0 top-0 inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-white/15 bg-white/[0.06] px-3 py-1.5 font-mono text-[11px] text-fg/85 backdrop-blur-md will-change-transform">
+          <span class="h-1.5 w-1.5 rounded-full bg-[#5b8cff]"></span>{p.data.name}
+        </span>
+      ))}
+    </div>
+    <div class="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-ink"></div>
+  </div>
+
+  <!-- Top-right glass link, like an app badge -->
+  <a
+    data-reveal
+    data-delay="0.9"
+    href="https://www.youtube.com/@orbital-solver"
+    target="_blank"
+    rel="noopener"
+    class="glass group absolute right-4 top-20 z-10 hidden items-center gap-3 rounded-2xl p-2.5 pr-4 transition-colors hover:border-white/25 md:right-8 md:top-28 md:flex lg:right-12"
+  >
+    <span class="grid h-10 w-10 place-items-center rounded-xl bg-[#2f6bff] font-serif text-xl italic text-white">ƒ</span>
+    <span class="text-xs leading-tight">
+      <span class="block font-medium text-fg">217 lessons on YouTube</span>
+      <span class="block text-muted">6,300+ subscribers ↗</span>
+    </span>
+  </a>
+
+  <div class="site-container relative z-10 mt-auto pb-8 pt-[50svh] md:pb-10 lg:pt-40">
+    <div data-reveal class="inline-flex items-center gap-2 rounded-full border border-[#5b8cff]/40 bg-[#2f6bff]/10 px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.12em] text-[#a9c1ff] backdrop-blur">
+      <span class="h-1.5 w-1.5 rounded-full bg-[#5b8cff] shadow-[0_0_8px_#5b8cff]"></span>
+      Math educator · EdTech builder
+    </div>
+
+    <div class="mt-6 grid items-end gap-8 lg:grid-cols-12">
+      <div class="lg:col-span-8">
+        <h1 data-split class="display text-[clamp(2.75rem,7vw,6rem)]">
+          {lines.map((line) => (
+            <span class="block">
+              {line.map((part) =>
+                part.text.split(' ').map((w, i, arr) => (
+                  <>
+                    <span class="word-mask"><span class={part.accent ? 'serif-accent pr-[0.06em] text-[#8fb0ff]' : 'text-gradient'}>{w}</span></span>{i < arr.length - 1 ? ' ' : ''}
+                  </>
+                )),
+              )}
+            </span>
+          ))}
+        </h1>
+        <div data-reveal data-delay="0.5" class="mt-7 flex flex-col gap-6 md:flex-row md:items-center md:gap-8">
+          <p class="max-w-md text-base leading-relaxed text-muted md:text-[17px]">
+            I'm Clayton Ragsdale, mathematics faculty at Grand Canyon University. I design and ship
+            education technology that real students use every week.
+          </p>
+          <div class="flex shrink-0 flex-wrap gap-3">
+            <a href="#work" class="btn btn-blue" data-magnetic>See the work <span class="arrow" aria-hidden="true">→</span></a>
+            <a href="#contact" class="btn glass !rounded-full text-fg" data-magnetic>Get in touch</a>
+          </div>
+        </div>
+      </div>
+      <!-- Floating glass stat (real numbers from Axiom) -->
+      <div data-reveal data-delay="0.9" class="glass hidden w-60 justify-self-end rounded-2xl p-4 lg:col-span-4 lg:block">
+        <p class="font-mono text-[10px] uppercase tracking-[0.14em] text-muted">Feedback per student</p>
+        <div class="mt-4 space-y-3">
+          <div>
+            <div class="flex justify-between text-xs text-muted"><span>By hand</span><span class="text-fg">5 min</span></div>
+            <div class="mt-1.5 h-1.5 rounded-full bg-white/10"><div class="h-full w-full rounded-full bg-white/40"></div></div>
+          </div>
+          <div>
+            <div class="flex justify-between text-xs text-muted"><span>With Axiom</span><span class="text-signal">5 sec</span></div>
+            <div class="mt-1.5 h-1.5 rounded-full bg-white/10"><div class="h-full w-[2%] min-w-[6px] rounded-full bg-signal shadow-[0_0_10px_#6ee7c8]"></div></div>
+          </div>
+        </div>
+        <p class="mt-4 text-[11px] text-faint">~1,000 students so far</p>
+      </div>
+    </div>
+
+    <!-- Glass project row -->
+    <div class="-mx-4 mt-10 overflow-x-auto px-4 [scrollbar-width:none] sm:mx-0 sm:px-0 md:mt-12">
+      <ol class="grid w-max grid-cols-4 gap-3 sm:w-full">
+        {projects.map((p, i) => (
+          <li data-reveal data-delay={String(0.7 + i * 0.08)}>
+            <a href={`/work/${p.id}/`} class="glass group flex h-full w-[240px] flex-col rounded-2xl p-4 transition-all duration-500 hover:-translate-y-1 hover:border-white/25 sm:w-auto md:p-5">
+              <div class="flex items-center justify-between font-mono text-[11px] text-faint">
+                <span>{p.data.category}</span>
+                <span>0{i + 1}</span>
+              </div>
+              <p class="mt-6 text-base font-medium text-fg md:mt-8">{p.data.name}</p>
+              <p class="mt-1 line-clamp-2 text-xs leading-relaxed text-muted">{p.data.title}</p>
+              <span class="mt-4 font-mono text-[11px] text-[#8fb0ff] transition-transform duration-500 group-hover:translate-x-1">{p.data.metrics[0].value} · {p.data.metrics[0].label} →</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { startParticles } from '../scripts/particles';
+  const canvas = document.querySelector<HTMLCanvasElement>('[data-particles]');
+  const labels = Array.from(document.querySelectorAll<HTMLElement>('[data-orbit-label]'));
+  if (canvas) startParticles(canvas, labels);
+</script>

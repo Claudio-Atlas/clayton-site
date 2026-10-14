@@ -2,6 +2,8 @@
 import '../styles/global.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import CommandMenu from '../components/CommandMenu.astro';
+import { ClientRouter } from 'astro:transitions';
 
 interface Props {
   title: string;
@@ -35,6 +37,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta name="twitter:description" content={description} />
 
     <title>{title}</title>
+    <ClientRouter fallback="swap" />
 
     <script is:inline>
       document.documentElement.classList.add('js');
@@ -48,7 +51,10 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
   </head>
   <body>
     <div class="noise" aria-hidden="true"></div>
-    <Nav />
+    <div transition:persist="chrome">
+      <Nav />
+      <CommandMenu />
+    </div>
     <main>
       <slot />
     </main>

@@ -105,7 +105,46 @@ function torus(n: number): Vec {
   return p;
 }
 
-export function startParticles(canvas: HTMLCanvasElement, labels: HTMLElement[] = []) {
+// Sample z = f(x, y) on a grid over [-3, 3]² and scale it to fit the camera.
+export function surface(n: number, f: (x: number, y: number) => number): Vec {
+  const p = new Float32Array(n * 3);
+  const side = Math.ceil(Math.sqrt(n));
+  const zs = new Float32Array(n);
+  let max = 0;
+  for (let i = 0; i < n; i++) {
+    const u = ((i % side) / (side - 1)) * 2 - 1;
+    const v = (Math.floor(i / side) / (side - 1)) * 2 - 1;
+    let z = f(u * 3, v * 3);
+    if (!Number.isFinite(z)) z = NaN;
+    zs[i] = z;
+    if (Number.isFinite(z)) max = Math.max(max, Math.abs(z));
+  }
+  const k = max > 0 ? 0.75 / max : 0;
+  for (let i = 0; i < n; i++) {
+    const u = ((i % side) / (side - 1)) * 2 - 1;
+    const v = (Math.floor(i / side) / (side - 1)) * 2 - 1;
+    // Points where f is undefined collapse onto the floor rather than disappearing.
+    const z = Number.isFinite(zs[i]) ? zs[i] * k : -0.9;
+    p.set([u * 1.05, -z, v * 1.05], i * 3);
+  }
+  return p;
+}
+
+export const SHAPES = ['Atom', 'Saddle', 'Helix', 'Torus'] as const;
+
+export interface ParticleController {
+  /** Morph to a built-in shape by index. */
+  show(index: number): void;
+  /** Morph to the next built-in shape. */
+  next(): void;
+  /** Morph to the surface z = f(x, y). */
+  plot(f: (x: number, y: number) => number): void;
+  /** Called with the active shape index, or -1 for a custom function. */
+  onChange(cb: (index: number) => void): void;
+  stop(): void;
+}
+
+export function startParticles(canvas: HTMLCanvasElement, labels: HTMLElement[] = []): ParticleController | undefined {
   const ctx = canvas.getContext('2d');
   if (!ctx) return;
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -114,6 +153,7 @@ export function startParticles(canvas: HTMLCanvasElement, labels: HTMLElement[] 
   const shapes = [atom(N), saddle(N), helix(N), torus(N)];
   // Tilt applied per shape so each reads well from the default camera.
   const tilts = [0.9, 0.35, 0.15, 0.55];
+  const CUSTOM_TILT = 0.45;
   const seeds = new Float32Array(N).map((_, i) => (i * 9301 + 49297) % 233280 / 233280);
 
   let w = 0, h = 0, dpr = 1, cx = 0, cy = 0, radius = 0;
@@ -133,36 +173,68 @@ export function startParticles(canvas: HTMLCanvasElement, labels: HTMLElement[] 
     radius = Math.min(w * (wide ? (snug ? 0.16 : 0.2) : 0.32), h * (wide ? (snug ? 0.21 : 0.24) : 0.26));
   };
   resize();
-  new ResizeObserver(resize).observe(canvas);
+  const ro = new ResizeObserver(resize);
+  ro.observe(canvas);
 
   let mx = 0, my = 0, tmx = 0, tmy = 0;
-  window.addEventListener('pointermove', (e) => {
+  const onPointer = (e: PointerEvent) => {
     tmx = (e.clientX / window.innerWidth) * 2 - 1;
     tmy = (e.clientY / window.innerHeight) * 2 - 1;
-  }, { passive: true });
+  };
+  window.addEventListener('pointermove', onPointer, { passive: true });
 
   let visible = true;
-  new IntersectionObserver(([entry]) => (visible = entry.isIntersecting)).observe(canvas);
+  const io = new IntersectionObserver(([entry]) => (visible = entry.isIntersecting));
+  io.observe(canvas);
 
   const HOLD = 5.5;
   const MORPH = 2.2;
-  const CYCLE = HOLD + MORPH;
-  const start = performance.now();
+  // After a visitor picks a shape, leave it alone this long before auto-cycling resumes.
+  const USER_HOLD = 14;
   const ease = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
   const colors = ['#2f6bff', '#5b8cff', '#7dd3fc', '#e8f0ff'];
+  const start = performance.now();
+  const clock = () => (performance.now() - start) / 1000;
 
-  const frame = (now: number) => {
-    if (!reduce) requestAnimationFrame(frame);
+  // Morph state: blend from A to B starting at mStart. `cur` holds the last drawn positions,
+  // so a new morph can start from wherever the cloud is right now.
+  let A: Vec = shapes[0];
+  let B: Vec = shapes[0];
+  let tiltA = tilts[0], tiltB = tilts[0];
+  let mStart = -MORPH;
+  let index = 0;
+  let nextAuto = HOLD;
+  const cur = new Float32Array(shapes[0]);
+  let listener: (i: number) => void = () => {};
+
+  const morphTo = (target: Vec, tilt: number, i: number, hold: number) => {
+    const t = clock();
+    A = new Float32Array(cur);
+    const m = Math.min(1, Math.max(0, (t - mStart) / MORPH));
+    tiltA = tiltA + (tiltB - tiltA) * ease(m);
+    B = target;
+    tiltB = tilt;
+    mStart = t;
+    index = i;
+    nextAuto = t + MORPH + hold;
+    listener(i);
+  };
+
+  let raf = 0;
+  let stopped = false;
+
+  const frame = () => {
+    if (stopped) return;
+    if (!reduce) raf = requestAnimationFrame(frame);
     if (!visible && !reduce) return;
-    const t = reduce ? 0 : (now - start) / 1000;
-    const k = Math.floor(t / CYCLE);
-    const phase = t - k * CYCLE;
-    const from = k % shapes.length;
-    const to = (k + 1) % shapes.length;
-    const m = phase < HOLD ? 0 : ease((phase - HOLD) / MORPH);
-    const A = shapes[from];
-    const B = shapes[to];
-    const tilt = tilts[from] + (tilts[to] - tilts[from]) * m;
+    const t = reduce ? 0 : clock();
+
+    if (!reduce && t >= nextAuto) {
+      const i = index < 0 ? 0 : (index + 1) % shapes.length;
+      morphTo(shapes[i], tilts[i], i, HOLD);
+    }
+    const m = reduce ? 1 : ease(Math.min(1, Math.max(0, (t - mStart) / MORPH)));
+    const tilt = tiltA + (tiltB - tiltA) * m;
 
     mx += (tmx - mx) * 0.04;
     my += (tmy - my) * 0.04;
@@ -204,14 +276,17 @@ export function startParticles(canvas: HTMLCanvasElement, labels: HTMLElement[] 
         const j = i * 3;
         const s = seeds[i];
         const wob = Math.sin(t * 1.3 + s * 40) * 0.012;
-        const x = A[j] + (B[j] - A[j]) * m + wob;
-        const y = A[j + 1] + (B[j + 1] - A[j + 1]) * m + wob;
+        const x = A[j] + (B[j] - A[j]) * m;
+        const y = A[j + 1] + (B[j + 1] - A[j + 1]) * m;
         const z = A[j + 2] + (B[j + 2] - A[j + 2]) * m;
+        cur[j] = x;
+        cur[j + 1] = y;
+        cur[j + 2] = z;
         // Rotate around Y, then X.
-        const x1 = x * cyr + z * syr;
-        const z1 = -x * syr + z * cyr;
-        const y2 = y * cxr - z1 * sxr;
-        const z2 = y * sxr + z1 * cxr;
+        const x1 = (x + wob) * cyr + z * syr;
+        const z1 = -(x + wob) * syr + z * cyr;
+        const y2 = (y + wob) * cxr - z1 * sxr;
+        const z2 = (y + wob) * sxr + z1 * cxr;
         const sc = f / (f + z2);
         const px = cx + x1 * radius * sc;
         const py = cy + y2 * radius * sc;
@@ -234,5 +309,33 @@ export function startParticles(canvas: HTMLCanvasElement, labels: HTMLElement[] 
       el.style.zIndex = lz < 0 ? '2' : '0';
     });
   };
-  requestAnimationFrame(frame);
+  raf = requestAnimationFrame(frame);
+
+  const redrawIfStill = () => {
+    if (reduce) requestAnimationFrame(frame);
+  };
+
+  return {
+    show(i) {
+      morphTo(shapes[i], tilts[i], i, USER_HOLD);
+      redrawIfStill();
+    },
+    next() {
+      this.show(index < 0 ? 0 : (index + 1) % shapes.length);
+    },
+    plot(fn) {
+      morphTo(surface(N, fn), CUSTOM_TILT, -1, USER_HOLD * 2);
+      redrawIfStill();
+    },
+    onChange(cb) {
+      listener = cb;
+    },
+    stop() {
+      stopped = true;
+      cancelAnimationFrame(raf);
+      ro.disconnect();
+      io.disconnect();
+      window.removeEventListener('pointermove', onPointer);
+    },
+  };
 }

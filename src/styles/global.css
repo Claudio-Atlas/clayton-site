@@ -87,6 +87,12 @@
     margin-block: -12px;
   }
 
+  .shape-chip[aria-pressed='true'] {
+    border-color: rgb(91 140 255 / 0.7);
+    background: rgb(47 107 255 / 0.18);
+    color: var(--color-fg);
+  }
+
   .eyebrow {
     font-family: var(--font-mono);
     font-size: 12px;
@@ -252,19 +258,6 @@
   .js [data-intro] {
     opacity: 0;
   }
-  .js [data-hairline] {
-    transform: scaleX(0);
-  }
-  .intro-line {
-    display: inline-block;
-    overflow: hidden;
-  }
-  .intro-line > span {
-    display: inline-block;
-  }
-  .js .intro-line > span {
-    transform: translateY(105%);
-  }
 
   .word-mask {
     display: inline-block;
@@ -318,8 +311,6 @@
   }
   .js [data-reveal],
   .js [data-intro],
-  .js [data-hairline],
-  .js .intro-line > span,
   .js .word-mask > span {
     opacity: 1;
     transform: none;

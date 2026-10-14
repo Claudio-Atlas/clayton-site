@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import { SHAPES } from '../scripts/particles';
 
 const projects = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
 
@@ -11,17 +12,17 @@ const lines: { text: string; accent?: boolean }[][] = [
 
 <section data-hero class="relative isolate flex min-h-[100svh] flex-col overflow-hidden">
   <!-- Particle shapes: atom → saddle → helix → torus -->
-  <div data-hero-art class="absolute inset-x-0 top-0 h-[62svh] lg:inset-0 lg:h-auto" aria-hidden="true">
+  <div data-hero-art class="absolute inset-x-0 top-0 h-[62svh] lg:inset-0 lg:h-auto">
     <div class="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_30%,rgb(47_107_255/0.16),transparent_70%)] lg:bg-[radial-gradient(ellipse_40%_50%_at_70%_33%,rgb(47_107_255/0.18),transparent_70%)]"></div>
-    <canvas data-particles class="absolute inset-0 h-full w-full"></canvas>
-    <div class="pointer-events-none absolute inset-0 hidden md:block lg:hidden xl:block">
+    <canvas data-particles class="absolute inset-0 h-full w-full cursor-pointer" title="Click to morph" aria-hidden="true"></canvas>
+    <div class="pointer-events-none absolute inset-0 hidden md:block lg:hidden xl:block" aria-hidden="true">
       {projects.map((p) => (
         <span data-orbit-label class="absolute left-0 top-0 inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-white/15 bg-white/[0.06] px-3 py-1.5 font-mono text-[11px] text-fg/85 backdrop-blur-md will-change-transform">
           <span class="h-1.5 w-1.5 rounded-full bg-[#5b8cff]"></span>{p.data.name}
         </span>
       ))}
     </div>
-    <div class="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-ink"></div>
+    <div class="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-ink" aria-hidden="true"></div>
   </div>
 
   <!-- Top-right glass link, like an app badge -->
@@ -35,18 +36,18 @@ const lines: { text: string; accent?: boolean }[][] = [
   >
     <span class="grid h-10 w-10 place-items-center rounded-xl bg-[#2f6bff] font-serif text-xl italic text-white">ƒ</span>
     <span class="text-xs leading-tight">
-      <span class="block font-medium text-fg">217 lessons on YouTube</span>
-      <span class="block text-muted">6,300+ subscribers ↗</span>
+      <span class="block font-medium text-fg">350K+ views on YouTube</span>
+      <span class="block text-muted">217 lessons · 6,300+ subscribers ↗</span>
     </span>
   </a>
 
-  <div class="site-container relative z-10 mt-auto pb-8 pt-[50svh] md:pb-10 lg:pt-40">
+  <div class="site-container pointer-events-none relative z-10 mt-auto pb-8 [&>*]:pointer-events-auto pt-[50svh] md:pb-10 lg:pt-40">
     <div data-reveal class="inline-flex items-center gap-2 rounded-full border border-[#5b8cff]/40 bg-[#2f6bff]/10 px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.12em] text-[#a9c1ff] backdrop-blur">
       <span class="h-1.5 w-1.5 rounded-full bg-[#5b8cff] shadow-[0_0_8px_#5b8cff]"></span>
       Educator · Founder · Builder
     </div>
 
-    <div class="mt-6 grid items-end gap-8 lg:grid-cols-12">
+    <div class="pointer-events-none mt-6 grid items-end gap-8 lg:grid-cols-12 [&>*]:pointer-events-auto">
       <div class="lg:col-span-8">
         <h1 data-split class="display text-[clamp(3rem,min(8.4vw,12svh),7rem)] lg:text-[clamp(3rem,min(7.3vw,12svh),7rem)]">
           {lines.map((line) => (
@@ -74,19 +75,27 @@ const lines: { text: string; accent?: boolean }[][] = [
         </div>
       </div>
       <!-- Floating glass stat (real numbers from Axiom) -->
-      <div data-reveal data-delay="0.9" class="glass hidden w-60 justify-self-end rounded-2xl p-4 lg:col-span-4 xl:block">
-        <p class="font-mono text-[10px] uppercase tracking-[0.14em] text-muted">Feedback per student</p>
-        <div class="mt-4 space-y-3">
-          <div>
-            <div class="flex justify-between text-xs text-muted"><span>By hand</span><span class="text-fg">5 min</span></div>
-            <div class="mt-1.5 h-1.5 rounded-full bg-white/10"><div class="h-full w-full rounded-full bg-white/40"></div></div>
-          </div>
-          <div>
-            <div class="flex justify-between text-xs text-muted"><span>With Axiom</span><span class="text-signal">5 sec</span></div>
-            <div class="mt-1.5 h-1.5 rounded-full bg-white/10"><div class="h-full w-[2%] min-w-[6px] rounded-full bg-signal shadow-[0_0_10px_#6ee7c8]"></div></div>
-          </div>
+      <div data-reveal data-delay="0.9" data-shape-panel class="glass w-full max-w-sm justify-self-end rounded-2xl p-4 lg:col-span-4">
+        <div class="flex items-center justify-between">
+          <p class="font-mono text-[10px] uppercase tracking-[0.14em] text-muted">Play with the math</p>
+          <p class="hidden font-mono text-[10px] text-faint lg:block">or click the shape</p>
         </div>
-        <p class="mt-4 text-[11px] text-faint">~1,000 students so far</p>
+        <div class="mt-3 flex flex-wrap gap-1.5" role="group" aria-label="Choose a shape">
+          {SHAPES.map((name, i) => (
+            <button type="button" data-shape={i} aria-pressed={i === 0 ? 'true' : 'false'} class="shape-chip rounded-full border border-white/12 px-3 py-1.5 text-xs text-muted transition-colors hover:text-fg">{name}</button>
+          ))}
+        </div>
+        <form data-fn-form class="mt-3 flex items-center gap-2 rounded-xl border border-white/12 bg-black/30 py-1 pl-3 pr-1 focus-within:border-[#5b8cff]/70">
+          <label for="fn-input" class="shrink-0 font-serif text-[15px] italic text-fg/80">z =</label>
+          <input id="fn-input" data-fn-input value="sin(x)·cos(y)" spellcheck="false" autocomplete="off" autocapitalize="off" class="min-w-0 flex-1 bg-transparent py-1.5 font-mono text-[13px] text-fg outline-none placeholder:text-faint" placeholder="sin(x)·cos(y)" aria-describedby="fn-msg" />
+          <button type="submit" class="shrink-0 rounded-lg bg-[#2f6bff] px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-[#3d78ff]">Draw</button>
+        </form>
+        <p id="fn-msg" data-fn-msg class="mt-2 min-h-4 font-mono text-[11px] text-faint" aria-live="polite">
+          Try:
+          {['x^2 - y^2', 'sin(x*y)', 'exp(-(x^2+y^2))', 'cos(sqrt(x^2+y^2)*2)'].map((ex) => (
+            <button type="button" data-fn-example={ex} class="tap mx-0.5 text-[#8fb0ff] hover:text-fg">{ex}</button>
+          ))}
+        </p>
       </div>
     </div>
 
@@ -111,9 +120,3 @@ const lines: { text: string; accent?: boolean }[][] = [
   </div>
 </section>
 
-<script>
-  import { startParticles } from '../scripts/particles';
-  const canvas = document.querySelector<HTMLCanvasElement>('[data-particles]');
-  const labels = Array.from(document.querySelectorAll<HTMLElement>('[data-orbit-label]'));
-  if (canvas) startParticles(canvas, labels);
-</script>

@@ -1,0 +1,41 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  id: string;
+  title: string;
+  views: string;
+  featured?: boolean;
+  class?: string;
+}
+
+const { id, title, views, featured = false, class: className } = Astro.props;
+const thumbs = import.meta.glob<{ default: ImageMetadata }>('../assets/work/shorts/*.jpg', { eager: true });
+const thumb = thumbs[`../assets/work/shorts/${id}.jpg`]?.default;
+---
+
+<div
+  data-short={id}
+  class:list={[
+    'short group relative aspect-[9/16] overflow-hidden rounded-[22px] border bg-black p-1 shadow-2xl shadow-black/50 transition-[transform,border-color] duration-500 hover:-translate-y-1',
+    featured ? 'border-[#5b8cff]/50 shadow-[0_0_60px_-20px_rgb(47_107_255/0.6)]' : 'border-line-strong hover:border-white/25',
+    className,
+  ]}
+>
+  <div class="short-screen relative h-full w-full overflow-hidden rounded-[18px]">
+    {thumb && <Image src={thumb} alt="" widths={[240, 480]} sizes="(min-width: 1024px) 220px, 45vw" class="absolute inset-0 h-full w-full object-cover" loading="lazy" />}
+    <button
+      type="button"
+      class="absolute inset-0 z-10 flex flex-col justify-end bg-gradient-to-t from-black/90 via-black/10 to-transparent p-3 text-left md:p-4"
+      aria-label={`Play Short: ${title}`}
+    >
+      {featured && (
+        <span class="absolute left-3 top-3 rounded-full bg-[#2f6bff] px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-white">Featured</span>
+      )}
+      <span class="absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-full bg-white/15 text-xs text-white backdrop-blur transition-colors group-hover:bg-white group-hover:text-ink">▶</span>
+      <span class="line-clamp-3 text-[13px] font-medium leading-snug text-white">{title}</span>
+      <span class="mt-1.5 font-mono text-[11px] text-white/70">{views} views</span>
+    </button>
+  </div>
+</div>

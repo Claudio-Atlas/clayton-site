@@ -58,7 +58,7 @@ const projects = (await getCollection('work')).sort((a, b) => a.data.order - b.d
                 </div>
               </div>
 
-              <a href={`/work/${p.id}/`} class="block lg:col-span-7" tabindex="-1" aria-label={`${p.data.name} case study`}>
+              <a href={`/work/${p.id}/`} data-visual class="block lg:col-span-7" tabindex="-1" aria-label={`${p.data.name} case study`}>
                 <ProjectVisual kind={p.data.visual} />
               </a>
             </div>

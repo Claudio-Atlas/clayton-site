@@ -1,7 +1,8 @@
 ---
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
-import trailer from '../assets/work/orbital-trailer.jpg';
+import ShortTile from './ShortTile.astro';
+import { shorts } from '../data/shorts';
 import home from '../assets/work/mat144/home.jpg';
 import topics from '../assets/work/mat144/home-topics.jpg';
 import review from '../assets/work/mat144/review.jpg';
@@ -66,20 +67,14 @@ const phoneShots = [
 {kind === 'orbital' && (
   <section class="site-container pb-20 md:pb-28">
     <p data-reveal class="eyebrow">Watch</p>
-    <div data-reveal class="mt-6 overflow-hidden rounded-[22px] border border-line">
-      <button
-        type="button"
-        class="yt group relative block aspect-video w-full"
-        data-yt="F_UZMF0zHms"
-        aria-label="Play the College Mathematics course trailer, made with Orbital"
-      >
-        <Image src={trailer} alt="" widths={[800, 1280]} sizes="(min-width: 1240px) 1144px, 100vw" class="h-full w-full object-cover" loading="lazy" />
-        <span class="absolute inset-0 grid place-items-center bg-black/30 transition-colors group-hover:bg-black/10">
-          <span class="grid h-20 w-20 place-items-center rounded-full bg-fg text-2xl text-ink shadow-[0_0_60px_rgb(143_164_255/0.6)] transition-transform duration-500 group-hover:scale-110">▶</span>
-        </span>
-        <span class="absolute bottom-4 left-5 font-mono text-xs text-fg/80">College Mathematics: every lesson, animated · 1:22</span>
-      </button>
-    </div>
+    <p data-reveal class="mt-3 max-w-xl text-muted">Made end to end by the pipeline. Hover to preview, or tap to play with sound.</p>
+    <ul class="mt-8 grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-5">
+      {shorts.slice(0, 4).map((sh, i) => (
+        <li data-reveal data-delay={String(i * 0.06)}>
+          <ShortTile id={sh.id} title={sh.title} views={sh.views} featured={'featured' in sh} />
+        </li>
+      ))}
+    </ul>
 
     <p data-reveal class="eyebrow mt-20">From the channel</p>
     <div class="mt-6 grid grid-cols-2 gap-3 md:grid-cols-4">
@@ -128,17 +123,3 @@ const phoneShots = [
   </section>
 )}
 
-<script>
-  // Load the YouTube player only when someone asks for it.
-  document.querySelectorAll<HTMLButtonElement>('button[data-yt]').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const iframe = document.createElement('iframe');
-      iframe.src = `https://www.youtube-nocookie.com/embed/${btn.dataset.yt}?autoplay=1&rel=0`;
-      iframe.title = btn.getAttribute('aria-label') ?? 'YouTube video';
-      iframe.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
-      iframe.allowFullscreen = true;
-      iframe.className = 'aspect-video w-full';
-      btn.replaceWith(iframe);
-    });
-  });
-</script>

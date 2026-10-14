@@ -17,19 +17,31 @@ const links = [
         <span class="text-[15px] font-medium tracking-tight text-fg/90">Clayton Ragsdale</span>
       </a>
 
-      <div class="hidden items-center gap-1 md:flex">
+      <div class="hidden items-center gap-1 lg:flex">
         {links.map((l) => (
           <a href={l.href} data-intro class="rounded-full px-4 py-2 text-sm text-muted transition-colors hover:text-fg">{l.label}</a>
         ))}
+        <button type="button" data-cmdk-open data-intro class="ml-2 inline-flex items-center gap-2 rounded-full border border-line-strong px-3 py-1.5 text-xs text-muted transition-colors hover:border-white/25 hover:text-fg" aria-label="Open command menu">
+          Search <kbd class="font-mono text-[10px] text-faint">⌘K</kbd>
+        </button>
         <span class="mx-2 h-4 w-px bg-line-strong" aria-hidden="true"></span>
         <a href="https://hub.claytonragsdale.com" data-intro class="rounded-full px-4 py-2 text-sm text-muted transition-colors hover:text-fg">Teaching Hub</a>
         <a href="/#contact" data-intro class="btn btn-primary ml-2 !h-10 !px-5 !text-sm">Let's talk</a>
       </div>
 
       <button
+        type="button"
+        data-cmdk-open
+        data-intro
+        class="ml-auto mr-1 grid h-11 w-11 place-items-center text-muted lg:hidden"
+        aria-label="Search the site"
+      >
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" stroke-linecap="round" /></svg>
+      </button>
+      <button
         id="menu-toggle"
         data-intro
-        class="relative -mr-2 grid h-11 w-11 place-items-center md:hidden"
+        class="relative -mr-2 grid h-11 w-11 place-items-center lg:hidden"
         aria-label="Open menu"
         aria-expanded="false"
         aria-controls="mobile-menu"
@@ -44,7 +56,7 @@ const links = [
 
 <div
   id="mobile-menu"
-  class="pointer-events-none fixed inset-0 z-40 bg-ink/95 pt-16 opacity-0 backdrop-blur-xl transition-opacity duration-500 md:hidden"
+  class="pointer-events-none fixed inset-0 z-40 bg-ink/95 pt-16 opacity-0 backdrop-blur-xl transition-opacity duration-500 lg:hidden"
   aria-hidden="true"
   inert
 >
@@ -112,7 +124,7 @@ const links = [
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') setOpen(false);
   });
-  window.matchMedia('(min-width: 768px)').addEventListener('change', (e) => {
+  window.matchMedia('(min-width: 1024px)').addEventListener('change', (e) => {
     if (e.matches) setOpen(false);
   });
 

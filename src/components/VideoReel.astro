@@ -1,6 +1,8 @@
 ---
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
+import ShortTile from './ShortTile.astro';
+import { shorts, shortsViews } from '../data/shorts';
 
 const files = import.meta.glob<{ default: ImageMetadata }>('../assets/work/orbital/*.jpg', { eager: true });
 const thumbs = Object.entries(files).map(([path, mod]) => ({
@@ -12,13 +14,16 @@ const half = Math.ceil(thumbs.length / 2);
 const rows = [thumbs.slice(0, half), thumbs.slice(half)];
 ---
 
-<section data-reel class="relative overflow-hidden border-t border-line py-24 md:py-32">
+<section id="youtube" data-reel class="relative overflow-hidden border-t border-line py-24 md:py-32">
   <div class="site-container mb-12 flex flex-col gap-6 md:mb-16 md:flex-row md:items-end md:justify-between">
     <div>
       <p data-reveal class="eyebrow">Orbital on YouTube</p>
       <h2 data-reveal data-delay="0.05" class="display mt-5 text-[clamp(2.2rem,5.5vw,4.25rem)] text-gradient">
-        217 lessons. <span class="serif-accent text-fg [-webkit-text-fill-color:currentColor]">One pipeline.</span>
+        217 lessons. <span class="serif-accent text-fg [-webkit-text-fill-color:currentColor]">{shortsViews} views.</span>
       </h2>
+      <p data-reveal data-delay="0.08" class="mt-4 max-w-lg text-muted">
+        Every video below was written, animated, narrated and checked by my Orbital pipeline. Hover a Short to preview it, or tap to watch with sound.
+      </p>
     </div>
     <a
       data-reveal
@@ -31,6 +36,16 @@ const rows = [thumbs.slice(0, half), thumbs.slice(half)];
     >
       Watch the channel <span class="arrow" aria-hidden="true">↗</span>
     </a>
+  </div>
+
+  <div data-reveal class="mb-12 md:mb-16">
+    <ul class="site-container flex snap-x snap-mandatory gap-3 overflow-x-auto pb-4 [scrollbar-width:none] md:gap-4">
+      {shorts.map((s) => (
+        <li class:list={['shrink-0 snap-start', 'featured' in s ? 'w-[64vw] max-w-[260px] sm:w-[260px]' : 'w-[46vw] max-w-[200px] sm:w-[200px]']}>
+          <ShortTile id={s.id} title={s.title} views={s.views} featured={'featured' in s} />
+        </li>
+      ))}
+    </ul>
   </div>
 
   <div class="flex flex-col gap-3 md:gap-4">

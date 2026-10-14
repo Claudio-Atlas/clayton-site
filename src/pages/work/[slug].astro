@@ -31,7 +31,11 @@ const d = project.data;
         </a>
         <p data-reveal data-delay="0.05" class="eyebrow mt-10 flex">{d.category}</p>
         <h1 data-split class="display mt-5 text-[clamp(3rem,10vw,7.5rem)]">
-          {d.name.split(' ').map((w) => <span class="word-mask"><span class="text-gradient">{w}</span></span>)}
+          {d.name.split(' ').map((w, i, arr) => (
+            <>
+              <span class="word-mask"><span class="text-gradient">{w}</span></span>{i < arr.length - 1 ? ' ' : ''}
+            </>
+          ))}
         </h1>
         <p data-reveal data-delay="0.3" class="mt-6 max-w-3xl text-xl leading-relaxed text-fg/80 md:text-2xl">
           {d.title}. <span class="text-muted">{d.tagline}</span>
@@ -53,7 +57,7 @@ const d = project.data;
     </header>
 
     <div class="site-container">
-      <div data-reveal class="spotlight mx-auto rounded-[26px] p-2 md:p-3">
+      <div class="spotlight mx-auto rounded-[26px] p-2 md:p-3" transition:name="project-visual">
         <ProjectVisual kind={d.visual} />
       </div>
 

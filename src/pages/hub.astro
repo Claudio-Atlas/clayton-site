@@ -1,0 +1,156 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// The Orbital mark: Lissajous curve x = sin 2t, y = sin 3t.
+const lissajous = Array.from({ length: 241 }, (_, i) => {
+  const t = (i / 240) * Math.PI * 2;
+  return `${i ? 'L' : 'M'}${(100 + Math.sin(2 * t) * 78).toFixed(2)} ${(100 - Math.sin(3 * t) * 78).toFixed(2)}`;
+}).join(' ');
+
+const inside = ['MAT-144 materials', 'Video library', 'Exam reviews', 'Office hours'];
+---
+
+<Layout title="Teaching Hub · Clayton Ragsdale" description="Sign in to the Teaching Hub for course materials and resources." bare noindex>
+  <section class="relative isolate grid min-h-[100svh] overflow-hidden lg:grid-cols-2">
+    <div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+      <div class="hairline-grid absolute inset-0 [mask-image:radial-gradient(ellipse_70%_60%_at_30%_40%,black,transparent)]"></div>
+      <div class="absolute -left-40 top-1/4 h-[520px] w-[520px] rounded-full bg-[#2f6bff]/20 blur-[140px]"></div>
+      <div class="absolute -right-32 bottom-0 h-[420px] w-[420px] rounded-full bg-[#22c5d8]/10 blur-[140px]"></div>
+    </div>
+
+    <!-- Brand side -->
+    <div class="flex flex-col justify-between gap-12 px-6 pb-6 pt-8 sm:px-10 lg:px-16 lg:py-14">
+      <a href="/" data-astro-reload class="tap inline-flex w-fit items-center gap-3 text-sm text-muted transition-colors hover:text-fg">
+        <img src="/favicon.svg" alt="" width="28" height="28" class="h-7 w-7 rounded-md" />
+        <span>← claytonragsdale.com</span>
+      </a>
+
+      <div class="max-w-md">
+        <svg viewBox="0 0 200 200" class="hub-mark mb-10 h-28 w-28 sm:h-36 sm:w-36" fill="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="hub-g" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#5b8cff" />
+              <stop offset="1" stop-color="#22d3ee" />
+            </linearGradient>
+          </defs>
+          <path id="hub-curve" class="draw in" pathLength="1" d={lissajous} stroke="url(#hub-g)" stroke-width="3" stroke-linejoin="round" style="--delay:.2s" />
+          <circle r="5" fill="#e0fbff" style="filter:drop-shadow(0 0 8px #22d3ee)">
+            <animateMotion dur="9s" repeatCount="indefinite" begin="2.4s"><mpath href="#hub-curve" /></animateMotion>
+          </circle>
+        </svg>
+        <p class="eyebrow">Students &amp; colleagues</p>
+        <h1 class="display mt-5 text-[clamp(2.8rem,6vw,4.75rem)] text-gradient">
+          Teaching <span class="serif-accent text-[#8fb0ff] [-webkit-text-fill-color:currentColor]">Hub.</span>
+        </h1>
+        <p class="mt-5 text-lg leading-relaxed text-muted">
+          Course materials, recordings and resources for the classes I teach, in one place.
+        </p>
+        <ul class="mt-8 flex flex-wrap gap-2">
+          {inside.map((item) => <li class="chip">{item}</li>)}
+        </ul>
+      </div>
+
+      <p class="hidden font-mono text-[11px] text-faint lg:block">© {new Date().getFullYear()} Clayton Ragsdale</p>
+    </div>
+
+    <!-- Sign-in card -->
+    <div class="flex items-center justify-center px-4 pb-14 sm:px-10 lg:py-14">
+      <div class="glass w-full max-w-[420px] rounded-3xl p-6 sm:p-8">
+        <div class="flex items-center justify-between">
+          <h2 class="text-2xl font-medium tracking-tight">Sign in</h2>
+          <span class="inline-flex items-center gap-2 rounded-full border border-[#f5c86b]/30 bg-[#f5c86b]/10 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-[#f5c86b]">
+            <span class="h-1.5 w-1.5 rounded-full bg-[#f5c86b]"></span> Reopening soon
+          </span>
+        </div>
+        <p class="mt-2 text-sm text-muted">Use the email address you enrolled with.</p>
+
+        <form data-hub-form class="mt-7 space-y-4" novalidate>
+          <label class="block">
+            <span class="mb-1.5 block text-xs text-muted">Email</span>
+            <input type="email" name="email" autocomplete="username" required placeholder="you@school.edu" class="hub-input" />
+          </label>
+          <label class="block">
+            <span class="mb-1.5 flex items-center justify-between text-xs text-muted">
+              Password
+              <button type="button" data-hub-toggle class="text-[#8fb0ff] hover:text-fg">Show</button>
+            </span>
+            <input type="password" name="password" autocomplete="current-password" required placeholder="••••••••" class="hub-input" />
+          </label>
+          <div class="flex items-center justify-between pt-1 text-sm">
+            <label class="flex cursor-pointer items-center gap-2 text-muted">
+              <input type="checkbox" class="h-4 w-4 accent-[#2f6bff]" /> Remember me
+            </label>
+            <a href="mailto:ragsdale.clay@gmail.com?subject=Teaching%20Hub%20access" class="text-[#8fb0ff] hover:text-fg">Forgot password?</a>
+          </div>
+          <button type="submit" class="btn btn-blue mt-2 w-full justify-center">Sign in</button>
+        </form>
+
+        <div data-hub-msg role="status" aria-live="polite" class="mt-5 hidden rounded-xl border border-[#5b8cff]/30 bg-[#2f6bff]/10 p-4 text-sm leading-relaxed text-fg/90">
+          The Teaching Hub is moving to a new home, and sign-in reopens soon. Need materials now?
+          <a href="mailto:ragsdale.clay@gmail.com?subject=Teaching%20Hub%20access" class="text-[#8fb0ff] underline underline-offset-4">Email me</a>
+          and I'll send them over.
+        </div>
+
+        <p class="mt-6 border-t border-line pt-5 text-xs leading-relaxed text-faint">
+          Looking for the course site? <a href="https://www.mat144.com" class="text-muted underline underline-offset-4 hover:text-fg">MAT144.com</a> is open to everyone, no sign-in needed.
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .hub-input {
+    width: 100%;
+    height: 46px;
+    padding-inline: 14px;
+    border-radius: 12px;
+    border: 1px solid rgb(255 255 255 / 0.12);
+    background: rgb(0 0 0 / 0.35);
+    color: var(--color-fg);
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .hub-input::placeholder {
+    color: var(--color-faint);
+  }
+  .hub-input:focus {
+    border-color: rgb(91 140 255 / 0.8);
+    box-shadow: 0 0 0 4px rgb(47 107 255 / 0.15);
+  }
+  .hub-input[aria-invalid='true'] {
+    border-color: rgb(255 138 138 / 0.7);
+  }
+</style>
+
+<script>
+  // Nothing typed here is sent anywhere: sign-in is offline until the hub reopens.
+  document.addEventListener('astro:page-load', () => {
+    const form = document.querySelector<HTMLFormElement>('[data-hub-form]');
+    if (!form) return;
+    const msg = document.querySelector<HTMLElement>('[data-hub-msg]')!;
+    const password = form.querySelector<HTMLInputElement>('input[name="password"]')!;
+    const toggle = form.querySelector<HTMLButtonElement>('[data-hub-toggle]')!;
+
+    toggle.addEventListener('click', () => {
+      const show = password.type === 'password';
+      password.type = show ? 'text' : 'password';
+      toggle.textContent = show ? 'Hide' : 'Show';
+    });
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      let ok = true;
+      form.querySelectorAll<HTMLInputElement>('input[required]').forEach((input) => {
+        const valid = input.checkValidity();
+        input.setAttribute('aria-invalid', String(!valid));
+        ok &&= valid;
+      });
+      if (!ok) return;
+      password.value = '';
+      msg.classList.remove('hidden');
+      msg.animate([{ opacity: 0, transform: 'translateY(6px)' }, { opacity: 1, transform: 'none' }], { duration: 400, easing: 'cubic-bezier(0.16,1,0.3,1)' });
+    });
+  });
+</script>

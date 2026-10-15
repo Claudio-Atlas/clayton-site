@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content';
 
 const projects = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
 
-type Item = { group: string; label: string; hint?: string; href?: string; action?: string; external?: boolean; keywords?: string };
+type Item = { group: string; label: string; hint?: string; href?: string; action?: string; external?: boolean; reload?: boolean; keywords?: string };
 const items: Item[] = [
   ...projects.map((p) => ({ group: 'Projects', label: p.data.name, hint: p.data.category, href: `/work/${p.id}/`, keywords: `${p.data.title} ${p.data.stack.join(' ')}` })),
   { group: 'Go to', label: 'Home', href: '/' },
@@ -19,7 +19,7 @@ const items: Item[] = [
   { group: 'Links', label: 'Onyx Core Enterprises', href: 'https://onyxcoreenterprises.org', external: true },
   { group: 'Links', label: 'LinkedIn', href: 'https://www.linkedin.com/in/clayton-ragsdale/', external: true },
   { group: 'Links', label: 'GitHub', href: 'https://github.com/Claudio-Atlas', external: true },
-  { group: 'Links', label: 'Teaching Hub login', href: 'https://hub.claytonragsdale.com', external: true },
+  { group: 'Go to', label: 'Teaching Hub login', href: '/hub', reload: true, keywords: 'students sign in' },
 ];
 ---
 
@@ -52,6 +52,7 @@ const items: Item[] = [
           data-href={it.href}
           data-action={it.action}
           data-external={it.external ? '1' : undefined}
+          data-reload={it.reload ? '1' : undefined}
           data-search={`${it.label} ${it.hint ?? ''} ${it.group} ${it.keywords ?? ''}`.toLowerCase()}
           class="flex cursor-pointer items-center justify-between gap-4 rounded-lg px-3 py-2.5 text-sm text-muted aria-selected:bg-white/[0.07] aria-selected:text-fg"
         >
@@ -119,7 +120,7 @@ const items: Item[] = [
   dialog.addEventListener('close', () => window.dispatchEvent(new CustomEvent('menu', { detail: false })));
 
   const run = async (el: HTMLElement) => {
-    const { href, action, external } = el.dataset;
+    const { href, action, external, reload } = el.dataset;
     if (action === 'copy-email') {
       try {
         await navigator.clipboard.writeText('ragsdale.clay@gmail.com');
@@ -132,8 +133,21 @@ const items: Item[] = [
     }
     close();
     if (!href) return;
-    if (external) window.open(href, href.startsWith('mailto:') ? '_self' : '_blank', 'noopener');
-    else navigate(href);
+    if (reload) {
+      window.location.href = href;
+      return;
+    }
+    if (external) {
+      window.open(href, href.startsWith('mailto:') ? '_self' : '_blank', 'noopener');
+      return;
+    }
+    const url = new URL(href, location.href);
+    const scrollToHash = (window as Window & { scrollToHash?: (h: string) => boolean }).scrollToHash;
+    if (url.pathname === location.pathname && url.hash && scrollToHash?.(url.hash)) {
+      history.pushState(history.state, '', url.hash);
+    } else {
+      navigate(href);
+    }
   };
 
   input.addEventListener('input', filter);

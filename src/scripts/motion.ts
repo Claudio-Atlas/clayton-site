@@ -14,11 +14,41 @@ const ease = [0.16, 1, 0.3, 1] as const;
 
 let lenis: Lenis | null = null;
 if (!reduceMotion) {
-  lenis = new Lenis({ autoRaf: true, anchors: { offset: -72 }, lerp: 0.11 });
+  lenis = new Lenis({ autoRaf: true, lerp: 0.11 });
   window.addEventListener('menu', (e) => {
     (e as CustomEvent<boolean>).detail ? lenis!.stop() : lenis!.start();
   });
 }
+
+// In-page section links ("/#work" while on "/"). Smooth scrolling keeps its own scroll
+// position, so a plain browser or router jump gets undone; scroll through Lenis instead.
+const NAV_OFFSET = -72;
+function scrollToHash(hash: string, immediate = false) {
+  const target = hash.length > 1 ? document.getElementById(decodeURIComponent(hash.slice(1))) : null;
+  if (!target) return false;
+  if (lenis) lenis.scrollTo(target, { offset: NAV_OFFSET, immediate, force: true, duration: 1.2 });
+  else window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY + NAV_OFFSET, behavior: immediate || reduceMotion ? 'auto' : 'smooth' });
+  return true;
+}
+(window as Window & { scrollToHash?: typeof scrollToHash }).scrollToHash = scrollToHash;
+
+document.addEventListener(
+  'click',
+  (e) => {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    const link = (e.target as Element).closest<HTMLAnchorElement>('a[href*="#"]');
+    if (!link) return;
+    const url = new URL(link.href, location.href);
+    if (url.origin !== location.origin || url.pathname !== location.pathname || !url.hash) return;
+    if (!document.getElementById(decodeURIComponent(url.hash.slice(1)))) return;
+    // Stops the router's own jump; other click handlers (closing the mobile menu) still run.
+    e.preventDefault();
+    history.pushState(history.state, '', url.hash);
+    // Let the mobile menu close (which restarts smooth scrolling) before scrolling.
+    setTimeout(() => scrollToHash(url.hash), 0);
+  },
+  true,
+);
 
 const intro = document.querySelectorAll<HTMLElement>('[data-intro]');
 if (reduceMotion) {
@@ -43,7 +73,7 @@ document.addEventListener('astro:after-swap', () => {
   if (lenis) {
     root.classList.add('lenis', 'lenis-smooth');
     lenis.resize();
-    if (!location.hash) lenis.scrollTo(0, { immediate: true, force: true });
+    lenis.scrollTo(0, { immediate: true, force: true });
   }
 });
 
@@ -212,6 +242,9 @@ function init() {
 
   initShorts();
   root.classList.add('motion-ready');
+
+  // Arriving with a hash (e.g. "/#work" from a case study): land on that section.
+  if (location.hash) requestAnimationFrame(() => scrollToHash(location.hash, true));
 }
 
 // ---------------------------------------------------------------------------

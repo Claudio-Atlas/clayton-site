@@ -6,6 +6,12 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev"],
       "port": 4321
+    },
+    {
+      "name": "axiom-reader",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "/Users/mainframe/Projects/axiom-reader", "run", "dev", "--", "--port", "4330"],
+      "port": 4330
     }
   ]
 }

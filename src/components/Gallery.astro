@@ -8,8 +8,11 @@ import topics from '../assets/work/mat144/home-topics.jpg';
 import review from '../assets/work/mat144/review.jpg';
 import videos from '../assets/work/mat144/videos.jpg';
 import dq from '../assets/work/mat144/dq.jpg';
-import mini from '../assets/work/mat144/mini.jpg';
+import atlas from '../assets/work/mat144/atlas.jpg';
+import examples from '../assets/work/mat144/examples.jpg';
+import exam from '../assets/work/mat144/exam.jpg';
 import mHome from '../assets/work/mat144/m-home.jpg';
+import mAtlas from '../assets/work/mat144/m-atlas.jpg';
 import mReview from '../assets/work/mat144/m-review.jpg';
 import mVideos from '../assets/work/mat144/m-videos.jpg';
 import gSetup from '../assets/work/grader/setup.jpg';
@@ -30,12 +33,14 @@ const thumbs = Object.values(
 ).map((m) => m.default);
 
 const desktopShots = [
-  { src: home, alt: 'mat144.com home page with the course trailer' },
-  { src: topics, alt: 'mat144.com course overview' },
-  { src: review, alt: 'A step-by-step review question' },
-  { src: dq, alt: 'A discussion-question walkthrough' },
-  { src: videos, alt: 'The video library' },
-  { src: mini, alt: 'Topic 1 mini lessons' },
+  { src: home, alt: 'Home: the 85-second course trailer and a one-line promise' },
+  { src: atlas, alt: 'Course Atlas: the whole course as a sky map' },
+  { src: topics, alt: 'Seven topics, each with its points and objectives' },
+  { src: examples, alt: 'Worked Example Library: browse by formula, try it first' },
+  { src: review, alt: 'Step-by-step review questions with readiness tracking' },
+  { src: exam, alt: 'Exam review: every question mapped to practice' },
+  { src: videos, alt: 'Video library: 144 videos cross-referenced with lessons' },
+  { src: dq, alt: 'Discussion-question walkthroughs' },
 ];
 const shotSets = {
   grader: {
@@ -61,6 +66,7 @@ const phoneShots = [
   { src: mHome, alt: 'mat144.com home on a phone' },
   { src: mReview, alt: 'A review question on a phone' },
   { src: mVideos, alt: 'The video library on a phone' },
+  { src: mAtlas, alt: 'The Course Atlas on a phone' },
 ];
 ---
 
@@ -98,10 +104,10 @@ const phoneShots = [
     </div>
 
     <p data-reveal class="eyebrow mt-20">On a phone</p>
-    <div class="mt-6 grid grid-cols-3 gap-3 md:gap-6">
+    <div class="mt-6 grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-6">
       {phoneShots.map((s, i) => (
         <figure data-reveal data-delay={String(i * 0.08)} class="overflow-hidden rounded-[22px] border border-line-strong bg-black p-1.5 md:rounded-[32px] md:p-2">
-          <Image src={s.src} alt={s.alt} widths={[300, 600]} sizes="(min-width: 768px) 360px, 30vw" class="w-full rounded-[16px] md:rounded-[24px]" loading="lazy" />
+          <Image src={s.src} alt={s.alt} widths={[300, 600]} sizes="(min-width: 768px) 270px, 45vw" class="w-full rounded-[16px] md:rounded-[24px]" loading="lazy" />
         </figure>
       ))}
     </div>

@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
-import desktop from '../../assets/work/mat144/home-topics.jpg';
-import phoneA from '../../assets/work/mat144/m-review.jpg';
+import desktop from '../../assets/work/mat144/atlas.jpg';
+import phoneA from '../../assets/work/mat144/m-home.jpg';
 import phoneB from '../../assets/work/mat144/m-videos.jpg';
 
 // Real screenshots of mat144.com: the course home on desktop and two pages on a phone.
@@ -15,10 +15,10 @@ import phoneB from '../../assets/work/mat144/m-videos.jpg';
       <span class="h-2 w-2 rounded-full bg-white/15"></span>
       <span class="ml-3 truncate font-mono text-[10px] text-faint">mat144.com</span>
     </div>
-    <Image src={desktop} alt="mat144.com home page on a laptop" widths={[640, 1280]} sizes="(min-width: 1024px) 560px, 80vw" class="h-full w-full object-cover object-top" loading="lazy" />
+    <Image src={desktop} alt="The mat144.com Course Atlas on a laptop" widths={[640, 1280]} sizes="(min-width: 1024px) 560px, 80vw" class="h-full w-full object-cover object-left-top" loading="lazy" />
   </div>
   <div class="absolute bottom-[-4%] right-[13%] w-[24%] overflow-hidden rounded-[18px] border border-line-strong bg-black p-1 shadow-2xl shadow-black/70">
-    <Image src={phoneA} alt="mat144.com review question on a phone" widths={[240, 480]} sizes="160px" class="w-full rounded-[14px]" loading="lazy" />
+    <Image src={phoneA} alt="The mat144.com home page on a phone" widths={[240, 480]} sizes="160px" class="w-full rounded-[14px]" loading="lazy" />
   </div>
   <div class="absolute bottom-[8%] right-0 w-[24%] overflow-hidden rounded-[18px] border border-line-strong bg-black p-1 shadow-2xl shadow-black/70">
     <Image src={phoneB} alt="mat144.com video library on a phone" widths={[240, 480]} sizes="160px" class="w-full rounded-[14px]" loading="lazy" />

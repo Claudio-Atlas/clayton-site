@@ -4,14 +4,81 @@
     {
       "name": "clayton-site",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
+      "runtimeArgs": [
+        "run",
+        "dev"
+      ],
       "port": 4321
     },
     {
-      "name": "axiom-reader",
+      "name": "meridian-site",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["--prefix", "/Users/mainframe/Projects/axiom-reader", "run", "dev", "--", "--port", "4330"],
+      "runtimeArgs": [
+        "--prefix",
+        "/Users/mainframe/Projects/meridian-site",
+        "run",
+        "dev",
+        "--",
+        "--port",
+        "4330"
+      ],
       "port": 4330
+    },
+    {
+      "name": "axiom-rebuild",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "--prefix",
+        "/Users/mainframe/Projects/axiom-reader-rebuild",
+        "run",
+        "dev",
+        "--",
+        "--port",
+        "4340"
+      ],
+      "port": 4340
+    },
+    {
+      "name": "axiom-covers",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "--prefix",
+        "/Users/mainframe/Projects/axiom-reader-covers",
+        "run",
+        "dev",
+        "--",
+        "--port",
+        "4350"
+      ],
+      "port": 4350
+    },
+    {
+      "name": "axiom-mathcovers",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "--prefix",
+        "/Users/mainframe/Projects/axiom-reader-mathcovers",
+        "run",
+        "dev",
+        "--",
+        "--port",
+        "4360"
+      ],
+      "port": 4360
+    },
+    {
+      "name": "axiom-shelf",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "--prefix",
+        "/Users/mainframe/Projects/axiom-reader-shelf",
+        "run",
+        "dev",
+        "--",
+        "--port",
+        "4370"
+      ],
+      "port": 4370
     }
   ]
 }
